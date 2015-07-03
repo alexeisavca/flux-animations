@@ -72,7 +72,6 @@
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
 	/*! shifty - v1.5.0 - 2015-05-31 - http://jeremyckahn.github.io/shifty */
 	;(function () {
 	  var root = this;
@@ -1691,6 +1690,7 @@
 	} (Tweenable));
 
 	}).call(null);
+
 
 /***/ },
 /* 3 */

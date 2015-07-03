@@ -1,7 +1,7 @@
 var path = require('path');
 module.exports = {
     entry: {
-        main: "./entry.js"
+        main: "./index.es6"
     },
     output: {
         path: './',
@@ -9,7 +9,10 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.js$/, loader: 'es6-loader' }
+            { test: /\.es6$/, loader: 'es6-loader' }
         ]
+    },
+    resolve: {
+        extensions: ['', '.js', '.es6']
     }
 };
