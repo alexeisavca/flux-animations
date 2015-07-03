@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/alexeisavca/flux-animations/issues"
   },
-  "homepage": "https://github.com/alexeisavca/flux-animations"
+  "homepage": "https://github.com/alexeisavca/flux-animations",
+  "devDependencies": {
+    "jsx-loader": "^0.13.2"
+  }
 }
