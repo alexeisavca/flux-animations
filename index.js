@@ -45,18 +45,22 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	module.exports = {
-	    Actions: __webpack_require__(1),
-	    Store: __webpack_require__(3)
-	};
+	var Actions = __webpack_require__(1)["default"];
+
+	var Store = __webpack_require__(3)["default"];
+
+	exports.Actions = Actions;
+
+	exports.Store = Store;
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var Tweenable = __webpack_require__(2);
-	module.exports = ((function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};
+	var Tweenable = __webpack_require__(2)["default"];
+
+	exports["default"] = ((function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};
 	    function Actions(dispatcher){
 	        this.dispatch = function(action, payload){
 	            dispatcher(action, payload);
@@ -1693,7 +1697,7 @@
 /***/ function(module, exports) {
 
 	"use strict";
-	module.exports = ((function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};function Store() {}DP$0(Store,"prototype",{"configurable":false,"enumerable":false,"writable":false});
+	exports["default"] = ((function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};function Store() {}DP$0(Store,"prototype",{"configurable":false,"enumerable":false,"writable":false});
 
 	;return Store;})());
 

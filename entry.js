@@ -1,4 +1,4 @@
-module.exports = {
-    Actions: require("./actions"),
-    Store: require('./store')
-};
+import Actions from "./actions";
+import Store from "./store";
+export {Actions as Actions};
+export {Store as Store}

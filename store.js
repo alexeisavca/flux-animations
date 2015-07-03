@@ -1,3 +1,3 @@
-module.exports = class Store{
+export default class Store{
 
 };
