@@ -6,6 +6,10 @@ var animations = List([
     Map({
         name: "Fade",
         slug: "fade"
+    }),
+    Map({
+        name: "Resize",
+        slug: "resize"
     })
 ]);
 
@@ -23,11 +27,14 @@ var targets = List([
 var flux = new Flux();
 var globalStateStore = flux.store("globalStateStore");
 globalStateStore.setCurrentAnimation("fade");
+globalStateStore.setCurrentTarget('image');
 
 flux.setOnStoreUpdateListener(function(){
     React.render(<DemoApp
         animations={animations}
         targets={targets}
         currentAnimation={globalStateStore.getCurrentAnimation()}
+        currentTarget={globalStateStore.getCurrentTarget()}
+        actions={flux.actions}
     />, document.getElementById('the-container'));
 });
