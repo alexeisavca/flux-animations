@@ -9,7 +9,7 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.jsx?$/, loaders: ['jsx?harmony'] }
+            { test: /\.jsx?$/, loaders: ['jsx?harmony'] },
             {
                 test: /\.es6$/,
                 exclude: /(node_modules|bower_components)/,
