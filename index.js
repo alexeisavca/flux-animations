@@ -45,64 +45,112 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var Actions = __webpack_require__(1)["default"];
 
-	var Store = __webpack_require__(4)["default"];
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
-	exports.Actions = Actions;
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-	exports.Store = Store;
+	var _actions = __webpack_require__(1);
+
+	var _actions2 = _interopRequireDefault(_actions);
+
+	var _store = __webpack_require__(4);
+
+	var _store2 = _interopRequireDefault(_store);
+
+	exports.Actions = _actions2["default"];
+	exports.Store = _store2["default"];
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var Tweenable = __webpack_require__(2)["default"];
 
-	var JS_ANIMATION_FRAME = __webpack_require__(3).JS_ANIMATION_FRAME;
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 
-	exports["default"] = ((function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};var proto$0={};
-	    function Actions(dispatcher){
-	        this.dispatch = function(action, payload){
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var _shifty = __webpack_require__(2);
+
+	var _shifty2 = _interopRequireDefault(_shifty);
+
+	var _constants = __webpack_require__(3);
+
+	var Actions = (function () {
+	    function Actions(dispatcher) {
+	        _classCallCheck(this, Actions);
+
+	        this.dispatch = function (action, payload) {
 	            dispatcher(action, payload);
+	        };
+	    }
+
+	    _createClass(Actions, [{
+	        key: "animateWithJs",
+	        value: function animateWithJs(_ref) {
+	            var _this = this;
+
+	            var target = _ref.target;
+	            var from = _ref.from;
+	            var to = _ref.to;
+	            var duration = _ref.duration;
+
+	            _shifty2["default"].tween({
+	                from: from,
+	                to: to,
+	                duration: duration,
+	                step: function step(state) {
+	                    _this.dispatch(_constants.JS_ANIMATION_FRAME, {
+	                        target: target,
+	                        style: state
+	                    });
+	                }
+	            });
 	        }
-	    }DP$0(Actions,"prototype",{"configurable":false,"enumerable":false,"writable":false});
+	    }, {
+	        key: "animateWithCss",
+	        value: function animateWithCss() {
+	            throw new Error("Implement me");
+	        }
+	    }, {
+	        key: "fade",
+	        value: function fade(_ref2) {
+	            var target = _ref2.target;
+	            var from = _ref2.from;
+	            var to = _ref2.to;
+	            var duration = _ref2.duration;
+	            var _mode = _ref2._mode;
 
-	    proto$0.animateWithJs = function(duration){var target = duration.target, from = duration.from, to = duration.to, duration = duration.duration;var this$0 = this;
-	        Tweenable.tween({
-	            from: from,
-	            to: to,
-	            duration: duration,
-	            step: function(state)  {
-	                this$0.dispatch(JS_ANIMATION_FRAME, {
-	                    target: target,
-	                    style: state
-	                });
-	            }
-	        })
-	    };
+	            var mode = _mode || "css";
+	            var cb = "js" == mode ? this.animateWithJs : this.animateWithCss;
+	            cb({
+	                target: target,
+	                from: {
+	                    opacity: from
+	                },
+	                to: {
+	                    opacity: to
+	                },
+	                duration: duration
+	            });
+	        }
+	    }]);
 
-	    proto$0.animateWithCss = function(){
-	        throw new Error("Implement me");
-	    };
+	    return Actions;
+	})();
 
-
-	    proto$0.fade = function(_mode){var target = _mode.target, from = _mode.from, to = _mode.to, duration = _mode.duration, _mode = _mode._mode;
-	        var mode = _mode || 'css';
-	        var cb = 'js' == mode ? this.animateWithJs : this.animateWithCss;
-	        cb({
-	            target: target,
-	            from: {
-	                opacity: from
-	            },
-	            to: {
-	                opacity: to
-	            },
-	            duration: duration
-	        })
-	    };
-	MIXIN$0(Actions.prototype,proto$0);proto$0=void 0;return Actions;})());
+	exports["default"] = Actions;
+	;
+	module.exports = exports["default"];
 
 /***/ },
 /* 2 */
@@ -1733,6 +1781,10 @@
 /***/ function(module, exports) {
 
 	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	var JS_ANIMATION_FRAME = "flux-animations:js-animation-frame";
 	exports.JS_ANIMATION_FRAME = JS_ANIMATION_FRAME;
 
@@ -1741,23 +1793,40 @@
 /***/ function(module, exports) {
 
 	"use strict";
-	exports["default"] = ((function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};function Store() {}DP$0(Store,"prototype",{"configurable":false,"enumerable":false,"writable":false});var proto$0={};
-	    proto$0.construct = function(){
 
-	    };
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 
-	    proto$0.getStyleFor = function(target){
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-	    };
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	    proto$0.getClassNameFor = function(target){
+	var Store = (function () {
+	    function Store() {
+	        _classCallCheck(this, Store);
+	    }
 
-	    };
+	    _createClass(Store, [{
+	        key: "construct",
+	        value: function construct() {}
+	    }, {
+	        key: "getStyleFor",
+	        value: function getStyleFor(target) {}
+	    }, {
+	        key: "getClassNameFor",
+	        value: function getClassNameFor(target) {}
+	    }, {
+	        key: "getCssAnimations",
+	        value: function getCssAnimations() {}
+	    }]);
 
-	    proto$0.getCssAnimations = function(){
+	    return Store;
+	})();
 
-	    };
-	MIXIN$0(Store.prototype,proto$0);proto$0=void 0;return Store;})());
+	exports["default"] = Store;
+	;
+	module.exports = exports["default"];
 
 /***/ }
 /******/ ]);
