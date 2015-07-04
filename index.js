@@ -47,11 +47,15 @@
 	var React = __webpack_require__(1);
 	var DemoApp = __webpack_require__(157);
 	var $__0=   __webpack_require__(160),List=$__0.List,Map=$__0.Map;
-	var Flux = __webpack_require__(161)['default'];
+	var Flux = __webpack_require__(161);
 	var animations = List([
 	    Map({
 	        name: "Fade",
 	        slug: "fade"
+	    }),
+	    Map({
+	        name: "Resize",
+	        slug: "resize"
 	    })
 	]);
 
@@ -69,12 +73,15 @@
 	var flux = new Flux();
 	var globalStateStore = flux.store("globalStateStore");
 	globalStateStore.setCurrentAnimation("fade");
+	globalStateStore.setCurrentTarget('image');
 
 	flux.setOnStoreUpdateListener(function(){
 	    React.render(React.createElement(DemoApp, {
 	        animations: animations, 
 	        targets: targets, 
-	        currentAnimation: globalStateStore.getCurrentAnimation()}
+	        currentAnimation: globalStateStore.getCurrentAnimation(), 
+	        currentTarget: globalStateStore.getCurrentTarget(), 
+	        actions: flux.actions}
 	    ), document.getElementById('the-container'));
 	});
 
@@ -20465,26 +20472,35 @@
 	module.exports = DemoApp;
 	for(var PureRenderComponent____Key in PureRenderComponent){if(PureRenderComponent.hasOwnProperty(PureRenderComponent____Key)){DemoApp[PureRenderComponent____Key]=PureRenderComponent[PureRenderComponent____Key];}}var ____SuperProtoOfPureRenderComponent=PureRenderComponent===null?null:PureRenderComponent.prototype;DemoApp.prototype=Object.create(____SuperProtoOfPureRenderComponent);DemoApp.prototype.constructor=DemoApp;DemoApp.__superConstructor__=PureRenderComponent;function DemoApp(){"use strict";if(PureRenderComponent!==null){PureRenderComponent.apply(this,arguments);}}
 	    Object.defineProperty(DemoApp.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
-	        var $__0=   this.props,animations=$__0.animations,targets=$__0.targets;
+	        var $__0=      this.props,animations=$__0.animations,targets=$__0.targets,currentAnimation=$__0.currentAnimation,currentTarget=$__0.currentTarget,actions=$__0.actions;
 	        return (
 	            React.createElement("div", {className: "row"}, 
 	                React.createElement("div", {className: "col-md-12 text-center"}, 
 	                    React.createElement("a", {href: "https://github.com/alexeisavca/flux-animations"}, "View source on github.")
 	                ), 
-	                React.createElement(Form, {animations: animations, targets: targets})
+	                React.createElement(Form, {
+	                    animations: animations, 
+	                    targets: targets, 
+	                    currentAnimation: currentAnimation, 
+	                    currentTarget: currentTarget, 
+	                    setCurrentAnimation: actions.setCurrentAnimation.bind(this.props.actions), 
+	                    setCurrentTarget: actions.setCurrentTarget.bind(this.props.actions)}
+	                )
 	            )
 	        )
 	    }});
 
 
-	var $__1=    React.PropTypes,instanceOf=$__1.instanceOf,string=$__1.string,func=$__1.func;
+	var $__1=     React.PropTypes,instanceOf=$__1.instanceOf,string=$__1.string,func=$__1.func,shape=$__1.shape;
 	Form.propTypes = {
 	    animations: instanceOf(List),
 	    target: instanceOf(List),
 	    currentAnimation: string.isRequired,
-	    setCurrentAnimation: func.isRequired,
 	    currentTarget: string.isRequired,
-	    setCurrentTarget: func.isRequired
+	    actions: shape({
+	        setCurrentAnimation: func.isRequired,
+	        setCurrentTarget: func.isRequired
+	    }).isRequired
 	};
 
 /***/ },
@@ -20515,20 +20531,28 @@
 
 	module.exports = Form;
 	for(var PureRenderComponent____Key in PureRenderComponent){if(PureRenderComponent.hasOwnProperty(PureRenderComponent____Key)){Form[PureRenderComponent____Key]=PureRenderComponent[PureRenderComponent____Key];}}var ____SuperProtoOfPureRenderComponent=PureRenderComponent===null?null:PureRenderComponent.prototype;Form.prototype=Object.create(____SuperProtoOfPureRenderComponent);Form.prototype.constructor=Form;Form.__superConstructor__=PureRenderComponent;function Form(){"use strict";if(PureRenderComponent!==null){PureRenderComponent.apply(this,arguments);}}
+	    Object.defineProperty(Form.prototype,"updateCurrentAnimation",{writable:true,configurable:true,value:function(event){"use strict";
+	        this.props.setCurrentAnimation(event.target.value);
+	    }});
+
+	    Object.defineProperty(Form.prototype,"updateCurrentTarget",{writable:true,configurable:true,value:function(event){"use strict";
+	        this.props.setCurrentTarget(event.target.value);
+	    }});
+
 	    Object.defineProperty(Form.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
-	        var $__0=   this.props,animations=$__0.animations,targets=$__0.targets;
+	        var $__0=     this.props,animations=$__0.animations,targets=$__0.targets,currentAnimation=$__0.currentAnimation,currentTarget=$__0.currentTarget;
 	        return (
 	            React.createElement("div", {className: "col-md-12"}, 
 	                React.createElement("form", {className: "form-inline"}, 
 	                    React.createElement("div", {className: "form-group"}, 
-	                        React.createElement("select", {className: "form-control"}, 
+	                        React.createElement("select", {className: "form-control", value: currentAnimation, onChange: this.updateCurrentAnimation.bind(this)}, 
 	                            animations.map(function(animation)  
 	                                {return React.createElement("option", {value: animation.get('slug'), key: animation.get('slug')}, animation.get('name'));}
 	                            )
 	                        )
 	                    ), 
 	                    React.createElement("div", {className: "form-group"}, 
-	                        React.createElement("select", {className: "form-control"}, 
+	                        React.createElement("select", {className: "form-control", value: currentTarget, onChange: this.updateCurrentTarget.bind(this)}, 
 	                            targets.map(function(target)  
 	                                {return React.createElement("option", {value: target.get('slug'), key: target.get('slug')}, target.get('name'));}
 	                            )
@@ -25487,145 +25511,341 @@
 /* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
 	//This is a very simple and primitive Flux implementation and should be not taken seriously
-	var Actions = __webpack_require__(162)["default"];
+	"use strict";
 
-	var GlobalStateStore = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./store/global-state\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()))["default"];
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 
-	var AnimationsStore = __webpack_require__(167)["default"];
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-	var Dispatcher = __webpack_require__(168)["default"];
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-	var obj2arr = __webpack_require__(169)["default"];
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	var _actions = __webpack_require__(162);
 
-	exports["default"] = ((function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};var proto$0={};
-	    function Flux(){
+	var _actions2 = _interopRequireDefault(_actions);
+
+	var _storeGlobalState = __webpack_require__(165);
+
+	var _storeGlobalState2 = _interopRequireDefault(_storeGlobalState);
+
+	var _storeAnimations = __webpack_require__(167);
+
+	var _storeAnimations2 = _interopRequireDefault(_storeAnimations);
+
+	var _dispatcher = __webpack_require__(168);
+
+	var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+	var _toolsObj2arr = __webpack_require__(169);
+
+	var _toolsObj2arr2 = _interopRequireDefault(_toolsObj2arr);
+
+	var Flux = (function () {
+	    function Flux() {
+	        _classCallCheck(this, Flux);
+
 	        this.stores = {
-	            globalStateStore: new GlobalStateStore(),
-	            animationsStore: new AnimationsStore()
+	            globalStateStore: new _storeGlobalState2["default"](),
+	            animationsStore: new _storeAnimations2["default"]()
 	        };
-	        var dispatcher = new Dispatcher(obj2arr(this.stores));
-	        this.actions = new Actions(dispatcher.dispatch.bind(dispatcher));
-	    }DP$0(Flux,"prototype",{"configurable":false,"enumerable":false,"writable":false});
+	        var dispatcher = new _dispatcher2["default"]((0, _toolsObj2arr2["default"])(this.stores));
+	        this.actions = new _actions2["default"](dispatcher.dispatch);
+	    }
 
-	    proto$0.setOnStoreUpdateListener = function(listener){
-	        obj2arr(this.stores).forEach(function(store ) {return store.setOnUpdateListener(listener)});
-	    };
+	    _createClass(Flux, [{
+	        key: "setOnStoreUpdateListener",
+	        value: function setOnStoreUpdateListener(listener) {
+	            (0, _toolsObj2arr2["default"])(this.stores).forEach(function (store) {
+	                return store.setOnUpdateListener(listener);
+	            });
+	        }
+	    }, {
+	        key: "store",
+	        value: function store(name) {
+	            return this.stores[name];
+	        }
+	    }]);
 
-	    proto$0.store = function(name){
-	        return this.stores[name];
-	    };
-	MIXIN$0(Flux.prototype,proto$0);proto$0=void 0;return Flux;})());
+	    return Flux;
+	})();
+
+	exports["default"] = Flux;
+	;
+	module.exports = exports["default"];
 
 /***/ },
 /* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
-	var constants = __webpack_require__(163);
-	var List = (Map = __webpack_require__(160)).List, Map = Map.Map;
-	exports["default"] = ((function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};var proto$0={};
-	    function Actions(dispatcher){
-	        this.dispatch = dispatcher;
-	    }DP$0(Actions,"prototype",{"configurable":false,"enumerable":false,"writable":false});
+	'use strict';
 
-	    proto$0.setCurrentAnimation = function(slug){
-	        this.dispatch(constants.CURRENT_ANIMATION_CHANGED, slug);
-	    };
-	MIXIN$0(Actions.prototype,proto$0);proto$0=void 0;return Actions;})());
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	var constants = __webpack_require__(163);
+
+	var _require = __webpack_require__(160);
+
+	var List = _require.List;
+	var Map = _require.Map;
+
+	var Actions = (function () {
+	    function Actions(dispatcher) {
+	        _classCallCheck(this, Actions);
+
+	        this.dispatch = dispatcher;
+	    }
+
+	    _createClass(Actions, [{
+	        key: 'setCurrentAnimation',
+	        value: function setCurrentAnimation(slug) {
+	            this.dispatch(constants.CURRENT_ANIMATION_CHANGED, slug);
+	        }
+	    }, {
+	        key: 'setCurrentTarget',
+	        value: function setCurrentTarget(slug) {
+	            this.dispatch(constants.CURRENT_TARGET_CHANGED, slug);
+	        }
+	    }]);
+
+	    return Actions;
+	})();
+
+	exports['default'] = Actions;
+	;
+	module.exports = exports['default'];
 
 /***/ },
 /* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var Animations = __webpack_require__(164)["default"];
 
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
-	exports.Animations = Animations;var CURRENT_ANIMATION_CHANGED = Symbol();
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	var _constants = __webpack_require__(164);
+
+	var _constants2 = _interopRequireDefault(_constants);
+
+	exports.Animations = _constants2["default"];
+	var CURRENT_ANIMATION_CHANGED = Symbol();
 	exports.CURRENT_ANIMATION_CHANGED = CURRENT_ANIMATION_CHANGED;
+	var CURRENT_TARGET_CHANGED = Symbol();
+	exports.CURRENT_TARGET_CHANGED = CURRENT_TARGET_CHANGED;
 
 /***/ },
 /* 164 */
 /***/ function(module, exports) {
 
 	"use strict";
-	var JS_ANIMATION_FRAME = "flux-animations:js-animation-frame";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var JS_ANIMATION_FRAME = Symbol();
 	exports.JS_ANIMATION_FRAME = JS_ANIMATION_FRAME;
 
 /***/ },
-/* 165 */,
-/* 166 */
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var constants = __webpack_require__(163);
-	var List = (Map = __webpack_require__(160)).List, Map = Map.Map;
-	exports["default"] = ((function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};var proto$0={};
-	    proto$0.createProperty = function (capitalizedName){
-	        var value;
-	        this['get' + capitalizedName] = function()  {return value};
-	        this['set' + capitalizedName] = function(newVal){
-	            value = newVal;
-	            this.getOnUpdateListener()();
-	        }
-	    };
 
-	    function Store(actions){
-	        this.process = function(action, payload){
-	            if('undefined' != typeof actions[action]){
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _indexEs6 = __webpack_require__(166);
+
+	var _indexEs62 = _interopRequireDefault(_indexEs6);
+
+	var _constants = __webpack_require__(163);
+
+	var constants = _interopRequireWildcard(_constants);
+
+	var GlobalStateStore = (function (_Store) {
+	    function GlobalStateStore() {
+	        var _get$call;
+
+	        _classCallCheck(this, GlobalStateStore);
+
+	        _get(Object.getPrototypeOf(GlobalStateStore.prototype), "constructor", this).call(this, (_get$call = {}, _defineProperty(_get$call, constants.CURRENT_ANIMATION_CHANGED, "setCurrentAnimation"), _defineProperty(_get$call, constants.CURRENT_TARGET_CHANGED, "setCurrentTarget"), _get$call));
+	        ["CurrentAnimation", "CurrentTarget"].forEach(this.createProperty.bind(this));
+	    }
+
+	    _inherits(GlobalStateStore, _Store);
+
+	    return GlobalStateStore;
+	})(_indexEs62["default"]);
+
+	exports["default"] = GlobalStateStore;
+	module.exports = exports["default"];
+
+/***/ },
+/* 166 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	var constants = __webpack_require__(163);
+
+	var _require = __webpack_require__(160);
+
+	var List = _require.List;
+	var Map = _require.Map;
+
+	var Store = (function () {
+	    function Store(actions) {
+	        _classCallCheck(this, Store);
+
+	        this.process = function (action, payload) {
+	            if ('undefined' != typeof actions[action]) {
 	                this[actions[action]](payload);
-	            } else {
-	                console.warn((("No handler for the " + action) + " action"));
 	            }
 	        };
 	        ['OnUpdateListener'].forEach(this.createProperty.bind(this));
-	        this.setOnUpdateListener(function(){});
-	    }DP$0(Store,"prototype",{"configurable":false,"enumerable":false,"writable":false});
-	MIXIN$0(Store.prototype,proto$0);proto$0=void 0;return Store;})());
+	        this.setOnUpdateListener(function () {});
+	    }
+
+	    _createClass(Store, [{
+	        key: 'createProperty',
+	        value: function createProperty(capitalizedName) {
+	            var value;
+	            this['get' + capitalizedName] = function () {
+	                return value;
+	            };
+	            this['set' + capitalizedName] = function (newVal) {
+	                value = newVal;
+	                this.getOnUpdateListener()();
+	            };
+	        }
+	    }]);
+
+	    return Store;
+	})();
+
+	exports['default'] = Store;
+	;
+	module.exports = exports['default'];
 
 /***/ },
 /* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var Store = __webpack_require__(166)["default"];
 
-	var constants = __webpack_require__(163)["default"];
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 
-	exports["default"] = ((function(super$0){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};var SP$0 = Object.setPrototypeOf||function(o,p){if(PRS$0){o["__proto__"]=p;}else {DP$0(o,"__proto__",{"value":p,"configurable":true,"enumerable":false,"writable":true});}return o};var OC$0 = Object.create;if(!PRS$0)MIXIN$0(AnimationsStore, super$0);
-	    function AnimationsStore(){
-	        super$0.call(this, {
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-	        })
-	    }if(super$0!==null)SP$0(AnimationsStore,super$0);AnimationsStore.prototype = OC$0(super$0!==null?super$0.prototype:null,{"constructor":{"value":AnimationsStore,"configurable":true,"writable":true}});DP$0(AnimationsStore,"prototype",{"configurable":false,"enumerable":false,"writable":false});
-	;return AnimationsStore;})(Store))
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _indexEs6 = __webpack_require__(166);
+
+	var _indexEs62 = _interopRequireDefault(_indexEs6);
+
+	var _constants = __webpack_require__(163);
+
+	var _constants2 = _interopRequireDefault(_constants);
+
+	var AnimationsStore = (function (_Store) {
+	    function AnimationsStore() {
+	        _classCallCheck(this, AnimationsStore);
+
+	        _get(Object.getPrototypeOf(AnimationsStore.prototype), "constructor", this).call(this, {});
+	    }
+
+	    _inherits(AnimationsStore, _Store);
+
+	    return AnimationsStore;
+	})(_indexEs62["default"]);
+
+	exports["default"] = AnimationsStore;
+	module.exports = exports["default"];
 
 /***/ },
 /* 168 */
 /***/ function(module, exports) {
 
 	"use strict";
-	exports["default"] = ((function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};
-	    function Dispatcher(listeners){
-	        this.dispatch = function(action, payload){
-	            listeners.forEach(function(listener ) {return listener.process(action, payload)})
-	        }
-	    }DP$0(Dispatcher,"prototype",{"configurable":false,"enumerable":false,"writable":false});
-	;return Dispatcher;})())
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Dispatcher = function Dispatcher(listeners) {
+	    _classCallCheck(this, Dispatcher);
+
+	    this.dispatch = function (action, payload) {
+	        listeners.forEach(function (listener) {
+	            return listener.process(action, payload);
+	        });
+	    };
+	};
+
+	exports["default"] = Dispatcher;
+	module.exports = exports["default"];
 
 /***/ },
 /* 169 */
 /***/ function(module, exports) {
 
 	"use strict";
-	exports["default"] = function obj2arr(obj){
-	    return Object.keys(obj).map(function(key){
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports["default"] = obj2arr;
+
+	function obj2arr(obj) {
+	    return Object.keys(obj).map(function (key) {
 	        return obj[key];
 	    });
-	};
+	}
+
+	;
+	module.exports = exports["default"];
 
 /***/ }
 /******/ ]);
