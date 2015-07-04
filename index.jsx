@@ -1,7 +1,7 @@
 var React = require('react');
 var DemoApp = require('./components/demo-app');
 var {List, Map} = require('immutable');
-var Flux = require('./simple-flux')['default'];
+var Flux = require('./simple-flux');
 var animations = List([
     Map({
         name: "Fade",
