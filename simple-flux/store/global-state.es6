@@ -1,10 +1,10 @@
 import Store from "./index.es6";
-import constants from "../constants";
+import * as constants from "../constants";
 export default class GlobalStateStore extends Store{
     constructor(){
         super({
-            [constants.CURRENT_ANIMATION_CHANGED]: this.setCurrentAnimation
+            [constants.CURRENT_ANIMATION_CHANGED]: 'setCurrentAnimation'
         });
-        ["CurrentAnimation"].forEach(property => this.createProperty.bind(this));
+        ["CurrentAnimation"].forEach(this.createProperty.bind(this));
     }
 }
