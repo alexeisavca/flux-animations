@@ -1,7 +1,7 @@
 var path = require('path');
 module.exports = {
     entry: {
-        main: "./index.jsx"
+        main: "./index.es6"
     },
     output: {
         path: './',
@@ -9,10 +9,10 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.jsx?$/, loaders: ['jsx?harmony'] }
+            { test: /\.es6$/, loader: 'es6-loader' }
         ]
     },
     resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js', '.es6']
     }
 };
