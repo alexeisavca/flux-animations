@@ -1,1 +1,1 @@
-export const JS_ANIMATION_FRAME = "flux-animations:js-animation-frame";
+export const JS_ANIMATION_FRAME = Symbol();
