@@ -47,7 +47,7 @@
 	"use strict";
 	var Actions = __webpack_require__(1)["default"];
 
-	var Store = __webpack_require__(3)["default"];
+	var Store = __webpack_require__(4)["default"];
 
 	exports.Actions = Actions;
 
@@ -60,13 +60,49 @@
 	"use strict";
 	var Tweenable = __webpack_require__(2)["default"];
 
-	exports["default"] = ((function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};
+	var JS_ANIMATION_FRAME = __webpack_require__(3).JS_ANIMATION_FRAME;
+
+	exports["default"] = ((function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};var proto$0={};
 	    function Actions(dispatcher){
 	        this.dispatch = function(action, payload){
 	            dispatcher(action, payload);
 	        }
 	    }DP$0(Actions,"prototype",{"configurable":false,"enumerable":false,"writable":false});
-	;return Actions;})());
+
+	    proto$0.animateWithJs = function(duration){var target = duration.target, from = duration.from, to = duration.to, duration = duration.duration;var this$0 = this;
+	        Tweenable.tween({
+	            from: from,
+	            to: to,
+	            duration: duration,
+	            step: function(state)  {
+	                this$0.dispatch(JS_ANIMATION_FRAME, {
+	                    target: target,
+	                    style: state
+	                });
+	            }
+	        })
+	    };
+
+	    proto$0.animateWithCss = function(){
+	        throw new Error("Implement me");
+	    };
+
+
+	    proto$0.fade = function(_mode){var target = _mode.target, from = _mode.from, to = _mode.to, duration = _mode.duration, _mode = _mode._mode;
+	        var mode = _mode || 'css';
+	        var cb = 'js' == mode ? this.animateWithJs : this.animateWithCss;
+	        cb({
+	            target: target,
+	            from: {
+	                opacity: from
+	            },
+	            to: {
+	                opacity: to
+	            },
+	            duration: duration
+	        })
+	    };
+	MIXIN$0(Actions.prototype,proto$0);proto$0=void 0;return Actions;})());
 
 /***/ },
 /* 2 */
@@ -1697,9 +1733,31 @@
 /***/ function(module, exports) {
 
 	"use strict";
-	exports["default"] = ((function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};function Store() {}DP$0(Store,"prototype",{"configurable":false,"enumerable":false,"writable":false});
+	var JS_ANIMATION_FRAME = "flux-animations:js-animation-frame";
+	exports.JS_ANIMATION_FRAME = JS_ANIMATION_FRAME;
 
-	;return Store;})());
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports["default"] = ((function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};function Store() {}DP$0(Store,"prototype",{"configurable":false,"enumerable":false,"writable":false});var proto$0={};
+	    proto$0.construct = function(){
+
+	    };
+
+	    proto$0.getStyleFor = function(target){
+
+	    };
+
+	    proto$0.getClassNameFor = function(target){
+
+	    };
+
+	    proto$0.getCssAnimations = function(){
+
+	    };
+	MIXIN$0(Store.prototype,proto$0);proto$0=void 0;return Store;})());
 
 /***/ }
 /******/ ]);
