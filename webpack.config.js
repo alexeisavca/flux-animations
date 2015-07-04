@@ -9,8 +9,12 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.es6$/, loader: 'es6-loader' },
             { test: /\.jsx?$/, loaders: ['jsx?harmony'] }
+            {
+                test: /\.es6$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'babel'
+            }
         ]
     },
     resolve: {
