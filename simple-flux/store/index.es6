@@ -14,8 +14,6 @@ export default class Store {
         this.process = function(action, payload){
             if('undefined' != typeof actions[action]){
                 this[actions[action]](payload);
-            } else {
-                console.warn(`No handler for the ${action} action`);
             }
         };
         ['OnUpdateListener'].forEach(this.createProperty.bind(this));
