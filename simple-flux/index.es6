@@ -12,7 +12,7 @@ export default class Flux{
             animationsStore: new AnimationsStore()
         };
         var dispatcher = new Dispatcher(obj2arr(this.stores));
-        this.actions = new Actions(dispatcher.dispatch.bind(dispatcher));
+        this.actions = new Actions(dispatcher.dispatch);
     }
 
     setOnStoreUpdateListener(listener){
