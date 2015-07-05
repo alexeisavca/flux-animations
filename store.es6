@@ -1,5 +1,5 @@
 import {List, Map} from "immutable";
-export default function injectAnimationLogic(store){
+export default function injectAnimationLogic(store, onChange){
     store.getStyleFor = function(target){
 
     };
