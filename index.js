@@ -197,7 +197,7 @@
 	        _classCallCheck(this, Actions);
 
 	        this.dispatch = dispatcher;
-	        this.animations = new _actions2["default"](this.dispatcher);
+	        this.animations = new _actions2["default"](this.dispatch);
 	    }
 
 	    _createClass(Actions, [{
@@ -249,7 +249,7 @@
 
 	var Animations = _interopRequireWildcard(_constants);
 
-	exports.Animations = Animations;
+	exports.animations = Animations;
 	var CURRENT_ANIMATION_CHANGED = Symbol();
 	exports.CURRENT_ANIMATION_CHANGED = CURRENT_ANIMATION_CHANGED;
 	var CURRENT_TARGET_CHANGED = Symbol();
@@ -5244,7 +5244,8 @@
 	            var to = _ref.to;
 	            var duration = _ref.duration;
 
-	            _shifty2["default"].tween({
+	            var tweenable = new _shifty2["default"]();
+	            tweenable.tween({
 	                from: from,
 	                to: to,
 	                duration: duration,
@@ -5268,10 +5269,10 @@
 	            var from = _ref2.from;
 	            var to = _ref2.to;
 	            var duration = _ref2.duration;
-	            var _mode = _ref2._mode;
+	            var mode = _ref2.mode;
 
-	            var mode = _mode || "css";
-	            var cb = "js" == mode ? this.animateWithJs : this.animateWithCss;
+	            var _mode = mode || "css";
+	            var cb = ("js" == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
 	            cb({
 	                target: target,
 	                from: {
@@ -5279,6 +5280,28 @@
 	                },
 	                to: {
 	                    opacity: to
+	                },
+	                duration: duration
+	            });
+	        }
+	    }, {
+	        key: "resize",
+	        value: function resize(_ref3) {
+	            var target = _ref3.target;
+	            var fromScale = _ref3.fromScale;
+	            var toScale = _ref3.toScale;
+	            var duration = _ref3.duration;
+	            var mode = _ref3.mode;
+
+	            var _mode = mode || "css";
+	            var cb = ("js" == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
+	            cb({
+	                target: target,
+	                from: {
+	                    transform: "scale(" + fromScale + ")"
+	                },
+	                to: {
+	                    transform: "scale(" + toScale + ")"
 	                },
 	                duration: duration
 	            });
@@ -27567,11 +27590,11 @@
 	        return a != b;
 	    }
 	}
-	module.exports = (function(){var ____Class3=React.Component;for(var ____Class3____Key in ____Class3){if(____Class3.hasOwnProperty(____Class3____Key)){____Class2[____Class3____Key]=____Class3[____Class3____Key];}}var ____SuperProtoOf____Class3=____Class3===null?null:____Class3.prototype;____Class2.prototype=Object.create(____SuperProtoOf____Class3);____Class2.prototype.constructor=____Class2;____Class2.__superConstructor__=____Class3;function ____Class2(){"use strict";if(____Class3!==null){____Class3.apply(this,arguments);}}
-	    Object.defineProperty(____Class2.prototype,"shouldComponentUpdate",{writable:true,configurable:true,value:function(nextProps, nextState){"use strict";
+	module.exports = (function(){var ____Class7=React.Component;for(var ____Class7____Key in ____Class7){if(____Class7.hasOwnProperty(____Class7____Key)){____Class6[____Class7____Key]=____Class7[____Class7____Key];}}var ____SuperProtoOf____Class7=____Class7===null?null:____Class7.prototype;____Class6.prototype=Object.create(____SuperProtoOf____Class7);____Class6.prototype.constructor=____Class6;____Class6.__superConstructor__=____Class7;function ____Class6(){"use strict";if(____Class7!==null){____Class7.apply(this,arguments);}}
+	    Object.defineProperty(____Class6.prototype,"shouldComponentUpdate",{writable:true,configurable:true,value:function(nextProps, nextState){"use strict";
 	        return shallowDiff(this.props, nextProps) || shallowDiff(this.state, nextState);
 	    }});
-	return ____Class2;})();
+	return ____Class6;})();
 
 /***/ },
 /* 171 */
@@ -27597,8 +27620,12 @@
 
 	    Object.defineProperty(Form.prototype,"doAnimation",{writable:true,configurable:true,value:function(event){"use strict";
 	        event.preventDefault();
-	        var $__0=   this.props,currentAnimation=$__0.currentAnimation,animationActions=$__0.animationActions;
-	        animationActions[currentAnimation]();
+	        var $__0=      this.props,currentAnimation=$__0.currentAnimation,animationActions=$__0.animationActions,currentTarget=$__0.currentTarget,animationMode=$__0.animationMode,animations=$__0.animations;
+	        var currentAnimationObj = animations.find(function(animation)  {return animation.get('slug') == currentAnimation;});
+	        var animationProps = currentAnimationObj.get('options').toJS();
+	        animationProps.target = currentTarget;
+	        animationProps.mode = animationMode;
+	        animationActions[currentAnimation](animationProps);
 	    }});
 
 	    Object.defineProperty(Form.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
@@ -27609,7 +27636,7 @@
 	        var currentAnimationProps = currentAnimationObj.get('options').toJS();
 	        return (
 	            React.createElement("div", {className: "col-md-12"}, 
-	                React.createElement("form", {className: "form-inline", onSubmit: this.doAnimation}, 
+	                React.createElement("form", {className: "form-inline", onSubmit: this.doAnimation.bind(this)}, 
 	                    React.createElement("div", {className: "form-group"}, 
 	                        React.createElement("select", {className: "form-control", value: currentAnimation, onChange: this.updateCurrentAnimation.bind(this)}, 
 	                            animations.map(function(animation)  
@@ -27735,13 +27762,13 @@
 
 	var React = __webpack_require__(13);
 	module.exports = function(name){
-	    return (function(){var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){____Class0[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;____Class0.prototype=Object.create(____SuperProtoOf____Class1);____Class0.prototype.constructor=____Class0;____Class0.__superConstructor__=____Class1;function ____Class0(){"use strict";if(____Class1!==null){____Class1.apply(this,arguments);}}
-	        Object.defineProperty(____Class0.prototype,"render",{writable:true,configurable:true,value:function(){"use strict";
+	    return (function(){var ____Class5=React.Component;for(var ____Class5____Key in ____Class5){if(____Class5.hasOwnProperty(____Class5____Key)){____Class4[____Class5____Key]=____Class5[____Class5____Key];}}var ____SuperProtoOf____Class5=____Class5===null?null:____Class5.prototype;____Class4.prototype=Object.create(____SuperProtoOf____Class5);____Class4.prototype.constructor=____Class4;____Class4.__superConstructor__=____Class5;function ____Class4(){"use strict";if(____Class5!==null){____Class5.apply(this,arguments);}}
+	        Object.defineProperty(____Class4.prototype,"render",{writable:true,configurable:true,value:function(){"use strict";
 	            return (
 	                React.createElement("span", null, "Implement ", name)
 	            )
 	        }});
-	    return ____Class0;})()
+	    return ____Class4;})()
 	};
 
 /***/ }
