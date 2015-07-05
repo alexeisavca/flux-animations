@@ -1,7 +1,7 @@
-import Store from "./index.es6";
+import ProtoStore from "../../proto-store";
 import * as constants from "../constants";
 import {List} from "immutable";
-export default class GlobalStateStore extends Store{
+export default class GlobalStateStore extends ProtoStore{
     constructor(){
         super({
             [constants.CURRENT_ANIMATION_CHANGED]: 'setCurrentAnimation',
