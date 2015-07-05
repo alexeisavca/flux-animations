@@ -6,7 +6,7 @@ var {List} = require('immutable');
 module.exports = DemoApp;
 class DemoApp extends PureRenderComponent {
     render() {
-        var {animations, targets, currentAnimation, currentTarget, actions, animationMode} = this.props;
+        var {animations, targets, currentAnimation, currentTarget, actions, animationMode, imageStyle} = this.props;
         return (
             <div className="row">
                 <div className="col-md-12 text-center">
@@ -24,12 +24,13 @@ class DemoApp extends PureRenderComponent {
                     setAnimationMode={actions.setAnimationMode.bind(this.props.actions)}
                     animationActions={actions.animations}
                 />
+                <img src="https://placekitten.com/1000/600" alt="" style={imageStyle}/>
             </div>
         )
     }
 }
 
-var {instanceOf, string, func, shape, oneOf} = React.PropTypes;
+var {instanceOf, string, func, shape, oneOf, object} = React.PropTypes;
 var requiredFunc = func.isRequired;
 DemoApp.propTypes = {
     animations: instanceOf(List),
@@ -46,5 +47,6 @@ DemoApp.propTypes = {
             fade: requiredFunc,
             resize: requiredFunc
         }).isRequired
-    }).isRequired
+    }).isRequired,
+    imageStyle: object.isRequired
 };

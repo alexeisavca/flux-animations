@@ -36,6 +36,7 @@ globalStateStore.setAnimations(List([
 globalStateStore.setCurrentAnimation("fade");
 globalStateStore.setCurrentTarget('image');
 globalStateStore.setAnimationMode('css');
+var animationsStore = flux.store("animationsStore");
 
 flux.setOnStoreUpdateListener(function(){
     React.render(<DemoApp
@@ -45,5 +46,6 @@ flux.setOnStoreUpdateListener(function(){
         currentTarget={globalStateStore.getCurrentTarget()}
         animationMode={globalStateStore.getAnimationMode()}
         actions={flux.actions}
+        imageStyle={animationsStore.getStyleFor("image")}
     />, document.getElementById('the-container'));
 });
