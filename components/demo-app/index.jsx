@@ -24,7 +24,9 @@ class DemoApp extends PureRenderComponent {
                     setAnimationMode={actions.setAnimationMode.bind(this.props.actions)}
                     animationActions={actions.animations}
                 />
-                <img src="https://placekitten.com/1000/600" alt="" style={imageStyle}/>
+                <div className="col-md-12" style={{marginTop: 10}}>
+                    <img src="https://placekitten.com/1000/600" alt="" style={imageStyle}/>
+                </div>
             </div>
         )
     }
