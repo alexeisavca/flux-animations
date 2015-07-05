@@ -19,6 +19,7 @@ class DemoApp extends PureRenderComponent {
                     currentTarget={currentTarget}
                     setCurrentAnimation={actions.setCurrentAnimation.bind(this.props.actions)}
                     setCurrentTarget={actions.setCurrentTarget.bind(this.props.actions)}
+                    updateAnimationOption={actions.updateAnimationOption.bind(this.props.actions)}
                 />
             </div>
         )
@@ -26,13 +27,15 @@ class DemoApp extends PureRenderComponent {
 }
 
 var {instanceOf, string, func, shape} = React.PropTypes;
+var requiredFunc = func.isRequired;
 DemoApp.propTypes = {
     animations: instanceOf(List),
     target: instanceOf(List),
     currentAnimation: string.isRequired,
     currentTarget: string.isRequired,
     actions: shape({
-        setCurrentAnimation: func.isRequired,
-        setCurrentTarget: func.isRequired
+        setCurrentAnimation: requiredFunc,
+        setCurrentTarget: requiredFunc,
+        updateAnimationOption: requiredFunc
     }).isRequired
 };
