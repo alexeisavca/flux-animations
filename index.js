@@ -20492,7 +20492,7 @@
 
 
 	var $__1=     React.PropTypes,instanceOf=$__1.instanceOf,string=$__1.string,func=$__1.func,shape=$__1.shape;
-	Form.propTypes = {
+	DemoApp.propTypes = {
 	    animations: instanceOf(List),
 	    target: instanceOf(List),
 	    currentAnimation: string.isRequired,

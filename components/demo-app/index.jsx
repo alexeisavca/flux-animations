@@ -26,7 +26,7 @@ class DemoApp extends PureRenderComponent {
 }
 
 var {instanceOf, string, func, shape} = React.PropTypes;
-Form.propTypes = {
+DemoApp.propTypes = {
     animations: instanceOf(List),
     target: instanceOf(List),
     currentAnimation: string.isRequired,
