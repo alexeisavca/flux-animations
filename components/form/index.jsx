@@ -18,8 +18,12 @@ class Form extends PureRenderComponent {
 
     doAnimation(event){
         event.preventDefault();
-        var {currentAnimation, animationActions} = this.props;
-        animationActions[currentAnimation]();
+        var {currentAnimation, animationActions, currentTarget, animationMode, animations} = this.props;
+        var currentAnimationObj = animations.find(animation => animation.get('slug') == currentAnimation);
+        var animationProps = currentAnimationObj.get('options').toJS();
+        animationProps.target = currentTarget;
+        animationProps.mode = animationMode;
+        animationActions[currentAnimation](animationProps);
     }
 
     render() {
@@ -30,7 +34,7 @@ class Form extends PureRenderComponent {
         var currentAnimationProps = currentAnimationObj.get('options').toJS();
         return (
             <div className="col-md-12">
-                <form className="form-inline" onSubmit={this.doAnimation}>
+                <form className="form-inline" onSubmit={this.doAnimation.bind(this)}>
                     <div className="form-group">
                         <select className="form-control" value={currentAnimation} onChange={this.updateCurrentAnimation.bind(this)}>
                             {animations.map(animation => (
