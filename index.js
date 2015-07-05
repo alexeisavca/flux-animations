@@ -48,17 +48,6 @@
 	var DemoApp = __webpack_require__(157);
 	var $__0=   __webpack_require__(160),List=$__0.List,Map=$__0.Map;
 	var Flux = __webpack_require__(161);
-	var animations = List([
-	    Map({
-	        name: "Fade",
-	        slug: "fade"
-	    }),
-	    Map({
-	        name: "Resize",
-	        slug: "resize"
-	    })
-	]);
-
 	var targets = List([
 	    Map({
 	        name: "Box",
@@ -72,12 +61,30 @@
 
 	var flux = new Flux();
 	var globalStateStore = flux.store("globalStateStore");
+	globalStateStore.setAnimations(List([
+	    Map({
+	        name: "Fade",
+	        slug: "fade",
+	        component: __webpack_require__(170),
+	        options: {
+	            from: 1,
+	            to: 0,
+	            duration: 1000
+	        }
+	    }),
+	    Map({
+	        name: "Resize",
+	        slug: "resize",
+	        component: __webpack_require__(171)('resize options'),
+	        options: List()
+	    })
+	]));
 	globalStateStore.setCurrentAnimation("fade");
 	globalStateStore.setCurrentTarget('image');
 
 	flux.setOnStoreUpdateListener(function(){
 	    React.render(React.createElement(DemoApp, {
-	        animations: animations, 
+	        animations: globalStateStore.getAnimations(), 
 	        targets: targets, 
 	        currentAnimation: globalStateStore.getCurrentAnimation(), 
 	        currentTarget: globalStateStore.getCurrentTarget(), 
@@ -20515,11 +20522,11 @@
 	        return a != b;
 	    }
 	}
-	module.exports = (function(){var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){____Class0[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;____Class0.prototype=Object.create(____SuperProtoOf____Class1);____Class0.prototype.constructor=____Class0;____Class0.__superConstructor__=____Class1;function ____Class0(){"use strict";if(____Class1!==null){____Class1.apply(this,arguments);}}
-	    Object.defineProperty(____Class0.prototype,"shouldComponentUpdate",{writable:true,configurable:true,value:function(nextProps, nextState){"use strict";
+	module.exports = (function(){var ____Classl=React.Component;for(var ____Classl____Key in ____Classl){if(____Classl.hasOwnProperty(____Classl____Key)){____Classk[____Classl____Key]=____Classl[____Classl____Key];}}var ____SuperProtoOf____Classl=____Classl===null?null:____Classl.prototype;____Classk.prototype=Object.create(____SuperProtoOf____Classl);____Classk.prototype.constructor=____Classk;____Classk.__superConstructor__=____Classl;function ____Classk(){"use strict";if(____Classl!==null){____Classl.apply(this,arguments);}}
+	    Object.defineProperty(____Classk.prototype,"shouldComponentUpdate",{writable:true,configurable:true,value:function(nextProps, nextState){"use strict";
 	        return shallowDiff(this.props, nextProps) || shallowDiff(this.state, nextState);
 	    }});
-	return ____Class0;})();
+	return ____Classk;})();
 
 /***/ },
 /* 159 */
@@ -20541,6 +20548,9 @@
 
 	    Object.defineProperty(Form.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
 	        var $__0=     this.props,animations=$__0.animations,targets=$__0.targets,currentAnimation=$__0.currentAnimation,currentTarget=$__0.currentTarget;
+	        var currentAnimationObj = animations.find(function(animation)  {return animation.get('slug') == currentAnimation;});
+	        var CurrentAnimationOptions = currentAnimationObj.get('component');
+	        var currentAnimationProps = currentAnimationObj.get('options');
 	        return (
 	            React.createElement("div", {className: "col-md-12"}, 
 	                React.createElement("form", {className: "form-inline"}, 
@@ -20560,6 +20570,8 @@
 	                        )
 	                    ), 
 	                    " ", 
+	                    React.createElement(CurrentAnimationOptions, React.__spread({},  currentAnimationProps)), 
+	                    " ", 
 	                    React.createElement("button", {type: "submit", className: "btn btn-default"}, "Go!")
 	                )
 	            )
@@ -20568,13 +20580,16 @@
 
 
 	var $__1=    React.PropTypes,instanceOf=$__1.instanceOf,string=$__1.string,func=$__1.func;
+	var requiredFunc = func.isRequired;
+	var requiredString = string.isRequired;
 	Form.propTypes = {
 	    animations: instanceOf(List),
 	    target: instanceOf(List),
-	    currentAnimation: string.isRequired,
-	    setCurrentAnimation: func.isRequired,
-	    currentTarget: string.isRequired,
-	    setCurrentTarget: func.isRequired
+	    currentAnimation: requiredString,
+	    setCurrentAnimation: requiredFunc,
+	    currentTarget: requiredString,
+	    setCurrentTarget: requiredFunc,
+	    updateAnimationOptions: requiredFunc
 	};
 
 /***/ },
@@ -25690,6 +25705,8 @@
 
 	var constants = _interopRequireWildcard(_constants);
 
+	var _immutable = __webpack_require__(160);
+
 	var GlobalStateStore = (function (_Store) {
 	    function GlobalStateStore() {
 	        var _get$call;
@@ -25697,7 +25714,8 @@
 	        _classCallCheck(this, GlobalStateStore);
 
 	        _get(Object.getPrototypeOf(GlobalStateStore.prototype), "constructor", this).call(this, (_get$call = {}, _defineProperty(_get$call, constants.CURRENT_ANIMATION_CHANGED, "setCurrentAnimation"), _defineProperty(_get$call, constants.CURRENT_TARGET_CHANGED, "setCurrentTarget"), _get$call));
-	        ["CurrentAnimation", "CurrentTarget"].forEach(this.createProperty.bind(this));
+	        ["CurrentAnimation", "CurrentTarget", "Animations"].forEach(this.createProperty.bind(this));
+	        this.setAnimations((0, _immutable.List)());
 	    }
 
 	    _inherits(GlobalStateStore, _Store);
@@ -25848,6 +25866,64 @@
 
 	;
 	module.exports = exports["default"];
+
+/***/ },
+/* 170 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var PureRenderComponent = __webpack_require__(158);
+	module.exports = FadeOptions;
+	for(var PureRenderComponent____Key in PureRenderComponent){if(PureRenderComponent.hasOwnProperty(PureRenderComponent____Key)){FadeOptions[PureRenderComponent____Key]=PureRenderComponent[PureRenderComponent____Key];}}var ____SuperProtoOfPureRenderComponent=PureRenderComponent===null?null:PureRenderComponent.prototype;FadeOptions.prototype=Object.create(____SuperProtoOfPureRenderComponent);FadeOptions.prototype.constructor=FadeOptions;FadeOptions.__superConstructor__=PureRenderComponent;function FadeOptions(){"use strict";if(PureRenderComponent!==null){PureRenderComponent.apply(this,arguments);}}
+	    Object.defineProperty(FadeOptions.prototype,"updateAnimationOptions",{writable:true,configurable:true,value:function(optionName, event){"use strict";
+	        this.props.updateAnimationOptions('fade', optionName, event.target.value);
+	    }});
+
+	    Object.defineProperty(FadeOptions.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
+	        var $__0=    this.props,from=$__0.from,to=$__0.to,duration=$__0.duration;
+	        return (
+	            React.createElement("span", null, 
+	                React.createElement("div", {className: "form-group"}, 
+	                    React.createElement("label", null, "From:"), 
+	                    React.createElement("input", {type: "number", className: "form-control", value: from, onChange: this.updateAnimationOptions.bind(this, 'from')})
+	                ), 
+	                " ", 
+	                React.createElement("div", {className: "form-group"}, 
+	                    React.createElement("label", null, "To:"), 
+	                    React.createElement("input", {type: "number", className: "form-control", value: to, onChange: this.updateAnimationOptions.bind(this, 'to')})
+	                ), 
+	                " ", 
+	                React.createElement("div", {className: "form-group"}, 
+	                    React.createElement("label", null, "Duration:"), 
+	                    React.createElement("input", {type: "number", className: "form-control", value: duration, onChange: this.updateAnimationOptions.bind(this, 'duration')})
+	                )
+	            )
+	        )
+	    }});
+
+	var $__0=   React.PropTypes,number=$__0.number,func=$__0.func;
+	var requiredNumber = number.isRequired;
+	FadeOptions.propTypes = {
+	    from: requiredNumber,
+	    to: requiredNumber,
+	    duration: requiredNumber,
+	    updateAnimationOptions: func.isRequired
+	};
+
+/***/ },
+/* 171 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	module.exports = function(name){
+	    return (function(){var ____Classo=React.Component;for(var ____Classo____Key in ____Classo){if(____Classo.hasOwnProperty(____Classo____Key)){____Classn[____Classo____Key]=____Classo[____Classo____Key];}}var ____SuperProtoOf____Classo=____Classo===null?null:____Classo.prototype;____Classn.prototype=Object.create(____SuperProtoOf____Classo);____Classn.prototype.constructor=____Classn;____Classn.__superConstructor__=____Classo;function ____Classn(){"use strict";if(____Classo!==null){____Classo.apply(this,arguments);}}
+	        Object.defineProperty(____Classn.prototype,"render",{writable:true,configurable:true,value:function(){"use strict";
+	            return (
+	                React.createElement("span", null, "Implement ", name)
+	            )
+	        }});
+	    return ____Classn;})()
+	};
 
 /***/ }
 /******/ ]);
