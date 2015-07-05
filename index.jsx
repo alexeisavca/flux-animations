@@ -20,17 +20,17 @@ globalStateStore.setAnimations(List([
         name: "Fade",
         slug: "fade",
         component: require('./components/fade-options'),
-        options: {
+        options: Map({
             from: 1,
             to: 0,
             duration: 1000
-        }
+        })
     }),
     Map({
         name: "Resize",
         slug: "resize",
         component: require('./components/placeholder')('resize options'),
-        options: List()
+        options: Map()
     })
 ]));
 globalStateStore.setCurrentAnimation("fade");
