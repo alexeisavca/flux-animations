@@ -8,7 +8,8 @@ export default class Actions {
     }
 
     animateWithJs({target, from, to, duration}){
-        Tweenable.tween({
+        var tweenable = new Tweenable();
+        tweenable.tween({
             from: from,
             to: to,
             duration: duration,
@@ -28,7 +29,7 @@ export default class Actions {
 
     fade({target, from, to, duration, mode}){
         var _mode = mode || 'css';
-        var cb = 'js' == _mode ? this.animateWithJs : this.animateWithCss;
+        var cb = ('js' == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
         cb({
             target: target,
             from: {
@@ -43,7 +44,7 @@ export default class Actions {
 
     resize({target, fromScale, toScale, duration, mode}){
         var _mode = mode || 'css';
-        var cb = 'js' == _mode ? this.animateWithJs : this.animateWithCss;
+        var cb = ('js' == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
         cb({
             target: target,
             from: {
