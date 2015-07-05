@@ -13,7 +13,10 @@ class Form extends PureRenderComponent {
     }
 
     render() {
-        var {animations, targets, currentAnimation, currentTarget} = this.props;
+        var {animations, targets, currentAnimation, currentTarget, updateAnimationOption} = this.props;
+        var currentAnimationObj = animations.find(animation => animation.get('slug') == currentAnimation);
+        var CurrentAnimationOptions = currentAnimationObj.get('component');
+        var currentAnimationProps = currentAnimationObj.get('options').toJS();
         return (
             <div className="col-md-12">
                 <form className="form-inline">
@@ -33,6 +36,8 @@ class Form extends PureRenderComponent {
                         </select>
                     </div>
                     &nbsp;
+                    <CurrentAnimationOptions {...currentAnimationProps} updateAnimationOption={updateAnimationOption}/>
+                    &nbsp;
                     <button type="submit" className="btn btn-default">Go!</button>
                 </form>
             </div>
@@ -41,11 +46,14 @@ class Form extends PureRenderComponent {
 }
 
 var {instanceOf, string, func} = React.PropTypes;
+var requiredFunc = func.isRequired;
+var requiredString = string.isRequired;
 Form.propTypes = {
     animations: instanceOf(List),
     target: instanceOf(List),
-    currentAnimation: string.isRequired,
-    setCurrentAnimation: func.isRequired,
-    currentTarget: string.isRequired,
-    setCurrentTarget: func.isRequired
+    currentAnimation: requiredString,
+    setCurrentAnimation: requiredFunc,
+    currentTarget: requiredString,
+    setCurrentTarget: requiredFunc,
+    updateAnimationOption: requiredFunc
 };
