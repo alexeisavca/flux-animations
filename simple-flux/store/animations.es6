@@ -1,11 +1,11 @@
-import Store from "./index.es6";
-import constants from "../constants";
-import injectAnimationLogic from "../../store";
-export default class AnimationsStore extends Store{
+import {default as ProtoStore} from "./index.es6";
+import * as  constants from "../constants";
+import AnimationsStore from "../../store";
+export default class Store extends ProtoStore{
     constructor(){
         super({
-
+            [constants.animations.JS_ANIMATION_FRAME]: "onJsAnimationFrame"
         });
-        injectAnimationLogic(this);
+        var animationStore = new AnimationsStore();
     }
 }
