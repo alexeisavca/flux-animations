@@ -26,9 +26,9 @@ export default class Actions {
     }
 
 
-    fade({target, from, to, duration, _mode}){
-        var mode = _mode || 'css';
-        var cb = 'js' == mode ? this.animateWithJs : this.animateWithCss;
+    fade({target, from, to, duration, mode}){
+        var _mode = mode || 'css';
+        var cb = 'js' == _mode ? this.animateWithJs : this.animateWithCss;
         cb({
             target: target,
             from: {
@@ -36,6 +36,21 @@ export default class Actions {
             },
             to: {
                 opacity: to
+            },
+            duration: duration
+        })
+    }
+
+    resize({target, fromScale, toScale, durationm mode}){
+        var _mode = mode || 'css';
+        var cb = 'js' == _mode ? this.animateWithJs : this.animateWithCss;
+        cb({
+            target: target,
+            from: {
+                transform: `scale(${fromScale})`
+            },
+            to: {
+                transform: `scale(${toScale})`
             },
             duration: duration
         })
