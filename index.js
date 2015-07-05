@@ -104,7 +104,8 @@
 	            var to = _ref.to;
 	            var duration = _ref.duration;
 
-	            _shifty2["default"].tween({
+	            var tweenable = new _shifty2["default"]();
+	            tweenable.tween({
 	                from: from,
 	                to: to,
 	                duration: duration,
@@ -131,7 +132,7 @@
 	            var mode = _ref2.mode;
 
 	            var _mode = mode || "css";
-	            var cb = "js" == _mode ? this.animateWithJs : this.animateWithCss;
+	            var cb = ("js" == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
 	            cb({
 	                target: target,
 	                from: {
@@ -153,7 +154,7 @@
 	            var mode = _ref3.mode;
 
 	            var _mode = mode || "css";
-	            var cb = "js" == _mode ? this.animateWithJs : this.animateWithCss;
+	            var cb = ("js" == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
 	            cb({
 	                target: target,
 	                from: {
