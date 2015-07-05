@@ -5,9 +5,16 @@ export default class GlobalStateStore extends Store{
     constructor(){
         super({
             [constants.CURRENT_ANIMATION_CHANGED]: 'setCurrentAnimation',
-            [constants.CURRENT_TARGET_CHANGED]: 'setCurrentTarget'
+            [constants.CURRENT_TARGET_CHANGED]: 'setCurrentTarget',
+            [constants.ANIMATION_OPTION_CHANGED]: 'updateAnimationOption'
         });
         ["CurrentAnimation", "CurrentTarget", "Animations"].forEach(this.createProperty.bind(this));
         this.setAnimations(List());
+    }
+
+    updateAnimationOption({animationName, optionName, value}){
+        var animations = this.getAnimations();
+        var index = animations.findIndex(animation => animation.get('slug') == animationName);
+        this.setAnimations(animations.setIn([index, 'options', optionName], value));
     }
 }
