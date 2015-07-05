@@ -5,6 +5,10 @@ export default class Store extends ProtoStore{
     constructor(){
         super({});
         var animationsStore = new AnimationsStore();
+        animationsStore.setOnUpdateListener(() => {
+            this.getOnUpdateListener()();
+        });
         this.process = animationsStore.process.bind(animationsStore);
+        this.getStyleFor = animationsStore.getStyleFor.bind(animationsStore);
     }
 }
