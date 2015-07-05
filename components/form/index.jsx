@@ -24,6 +24,7 @@ class Form extends PureRenderComponent {
                             ))}
                         </select>
                     </div>
+                    &nbsp;
                     <div className="form-group">
                         <select className="form-control" value={currentTarget} onChange={this.updateCurrentTarget.bind(this)}>
                             {targets.map(target => (
@@ -31,6 +32,7 @@ class Form extends PureRenderComponent {
                             ))}
                         </select>
                     </div>
+                    &nbsp;
                     <button type="submit" className="btn btn-default">Go!</button>
                 </form>
             </div>

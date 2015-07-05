@@ -20551,6 +20551,7 @@
 	                            )
 	                        )
 	                    ), 
+	                    " ", 
 	                    React.createElement("div", {className: "form-group"}, 
 	                        React.createElement("select", {className: "form-control", value: currentTarget, onChange: this.updateCurrentTarget.bind(this)}, 
 	                            targets.map(function(target)  
@@ -20558,6 +20559,7 @@
 	                            )
 	                        )
 	                    ), 
+	                    " ", 
 	                    React.createElement("button", {type: "submit", className: "btn btn-default"}, "Go!")
 	                )
 	            )
