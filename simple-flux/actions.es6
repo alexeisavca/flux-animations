@@ -5,7 +5,7 @@ import {default as AnimationActions} from "../actions"
 export default class Actions{
     constructor(dispatcher){
         this.dispatch = dispatcher;
-        this.animations = new AnimationActions(this.dispatcher);
+        this.animations = new AnimationActions(this.dispatch);
     }
 
     setCurrentAnimation(slug){
