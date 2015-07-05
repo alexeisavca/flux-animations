@@ -41,7 +41,7 @@ export default class Actions {
         })
     }
 
-    resize({target, fromScale, toScale, durationm mode}){
+    resize({target, fromScale, toScale, duration, mode}){
         var _mode = mode || 'css';
         var cb = 'js' == _mode ? this.animateWithJs : this.animateWithCss;
         cb({

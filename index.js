@@ -128,10 +128,10 @@
 	            var from = _ref2.from;
 	            var to = _ref2.to;
 	            var duration = _ref2.duration;
-	            var _mode = _ref2._mode;
+	            var mode = _ref2.mode;
 
-	            var mode = _mode || "css";
-	            var cb = "js" == mode ? this.animateWithJs : this.animateWithCss;
+	            var _mode = mode || "css";
+	            var cb = "js" == _mode ? this.animateWithJs : this.animateWithCss;
 	            cb({
 	                target: target,
 	                from: {
@@ -139,6 +139,28 @@
 	                },
 	                to: {
 	                    opacity: to
+	                },
+	                duration: duration
+	            });
+	        }
+	    }, {
+	        key: "resize",
+	        value: function resize(_ref3) {
+	            var target = _ref3.target;
+	            var fromScale = _ref3.fromScale;
+	            var toScale = _ref3.toScale;
+	            var duration = _ref3.duration;
+	            var mode = _ref3.mode;
+
+	            var _mode = mode || "css";
+	            var cb = "js" == _mode ? this.animateWithJs : this.animateWithCss;
+	            cb({
+	                target: target,
+	                from: {
+	                    transform: "scale(" + fromScale + ")"
+	                },
+	                to: {
+	                    transform: "scale(" + toScale + ")"
 	                },
 	                duration: duration
 	            });
@@ -1785,7 +1807,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var JS_ANIMATION_FRAME = "flux-animations:js-animation-frame";
+	var JS_ANIMATION_FRAME = Symbol();
 	exports.JS_ANIMATION_FRAME = JS_ANIMATION_FRAME;
 
 /***/ },
