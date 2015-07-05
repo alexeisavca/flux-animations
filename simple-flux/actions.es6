@@ -16,6 +16,10 @@ export default class Actions{
         this.dispatch(constants.CURRENT_TARGET_CHANGED, slug);
     }
 
+    setAnimationMode(mode){
+        this.dispatch(constants.ANIMATION_MODE_CHANGED, mode);
+    }
+
     updateAnimationOption(animationName, optionName, value){
         this.dispatch(constants.ANIMATION_OPTION_CHANGED, {
             animationName: animationName,

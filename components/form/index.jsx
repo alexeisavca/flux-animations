@@ -12,14 +12,25 @@ class Form extends PureRenderComponent {
         this.props.setCurrentTarget(event.target.value);
     }
 
+    updateAnimationMode(event){
+        this.props.setAnimationMode(event.target.value);
+    }
+
+    doAnimation(event){
+        event.preventDefault();
+        var {currentAnimation, animationActions} = this.props;
+        animationActions[currentAnimation]();
+    }
+
     render() {
-        var {animations, targets, currentAnimation, currentTarget, updateAnimationOption} = this.props;
+        var {animations, targets, currentAnimation, currentTarget, updateAnimationOption, animationMode,
+            setAnimationMode} = this.props;
         var currentAnimationObj = animations.find(animation => animation.get('slug') == currentAnimation);
         var CurrentAnimationOptions = currentAnimationObj.get('component');
         var currentAnimationProps = currentAnimationObj.get('options').toJS();
         return (
             <div className="col-md-12">
-                <form className="form-inline">
+                <form className="form-inline" onSubmit={this.doAnimation}>
                     <div className="form-group">
                         <select className="form-control" value={currentAnimation} onChange={this.updateCurrentAnimation.bind(this)}>
                             {animations.map(animation => (
@@ -38,6 +49,14 @@ class Form extends PureRenderComponent {
                     &nbsp;
                     <CurrentAnimationOptions {...currentAnimationProps} updateAnimationOption={updateAnimationOption}/>
                     &nbsp;
+                    <div className="form-group">
+                        <label>via</label>
+                        <select className="form-control" value={animationMode} onChange={this.updateAnimationMode.bind(this)}>
+                            <option value="css">CSS</option>
+                            <option value="js">JS</option>
+                        </select>
+                    </div>
+                    &nbsp;
                     <button type="submit" className="btn btn-default">Go!</button>
                 </form>
             </div>
@@ -45,7 +64,7 @@ class Form extends PureRenderComponent {
     }
 }
 
-var {instanceOf, string, func} = React.PropTypes;
+var {instanceOf, string, func, shape, oneOf} = React.PropTypes;
 var requiredFunc = func.isRequired;
 var requiredString = string.isRequired;
 Form.propTypes = {
@@ -55,5 +74,11 @@ Form.propTypes = {
     setCurrentAnimation: requiredFunc,
     currentTarget: requiredString,
     setCurrentTarget: requiredFunc,
-    updateAnimationOption: requiredFunc
+    updateAnimationOption: requiredFunc,
+    animationMode: oneOf(['js', 'css']).isRequired,
+    setAnimationMode: requiredFunc,
+    animationActions: shape({
+        fade: requiredFunc,
+        resize: requiredFunc
+    }).isRequired
 };

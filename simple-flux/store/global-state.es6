@@ -6,9 +6,10 @@ export default class GlobalStateStore extends Store{
         super({
             [constants.CURRENT_ANIMATION_CHANGED]: 'setCurrentAnimation',
             [constants.CURRENT_TARGET_CHANGED]: 'setCurrentTarget',
-            [constants.ANIMATION_OPTION_CHANGED]: 'updateAnimationOption'
+            [constants.ANIMATION_OPTION_CHANGED]: 'updateAnimationOption',
+            [constants.ANIMATION_MODE_CHANGED]: 'setAnimationMode'
         });
-        ["CurrentAnimation", "CurrentTarget", "Animations"].forEach(this.createProperty.bind(this));
+        ["CurrentAnimation", "CurrentTarget", "Animations", "AnimationMode"].forEach(this.createProperty.bind(this));
         this.setAnimations(List());
     }
 
