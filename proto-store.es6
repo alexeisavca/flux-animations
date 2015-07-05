@@ -1,5 +1,5 @@
 var {List, Map} = require('immutable');
-export default class Store {
+export default class {
     createProperty (capitalizedName){
         var value;
         this['get' + capitalizedName] = () => value;
