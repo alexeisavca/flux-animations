@@ -1,4 +1,3 @@
-var constants = require('../constants');
 var {List, Map} = require('immutable');
 export default class Store {
     createProperty (capitalizedName){
