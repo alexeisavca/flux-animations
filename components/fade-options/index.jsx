@@ -37,7 +37,7 @@ class FadeOptions extends PureRenderComponent {
                 </div>
                 &nbsp;
                 <div className="form-group">
-                    <label>Duration:</label>
+                    <label>During:</label>
                     <input
                         type="number"
                         className="form-control"
@@ -45,6 +45,8 @@ class FadeOptions extends PureRenderComponent {
                         onChange={this.updateAnimationOptions.bind(this, 'duration')}
                         min="0"
                     />
+                    &nbsp;
+                    <label>ms</label>
                 </div>
             </span>
         )
