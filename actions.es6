@@ -42,16 +42,16 @@ export default class Actions {
         })
     }
 
-    resize({target, fromScale, toScale, duration, mode}){
+    resize({target, from, to, duration, mode}){
         var _mode = mode || 'css';
         var cb = ('js' == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
         cb({
             target: target,
             from: {
-                transform: `scale(${fromScale})`
+                transform: `scale(${from})`
             },
             to: {
-                transform: `scale(${toScale})`
+                transform: `scale(${to})`
             },
             duration: duration
         })
