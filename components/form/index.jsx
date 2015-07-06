@@ -1,6 +1,7 @@
 var React = require('react');
 var PureRenderComponent = require('../pure-render-component');
 var {List} = require('immutable');
+var easings = require('keyframes.js/easings');
 
 module.exports = Form;
 class Form extends PureRenderComponent {
@@ -27,6 +28,7 @@ class Form extends PureRenderComponent {
         var animationProps = currentAnimationObj.get('options').toJS();
         animationProps.target = currentTarget;
         animationProps.mode = animationMode;
+        animationProps.easing = easings[this.props.easing];
         animationActions[currentAnimation](animationProps);
     }
 

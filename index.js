@@ -26611,6 +26611,7 @@
 	var React = __webpack_require__(21);
 	var PureRenderComponent = __webpack_require__(178);
 	var $__0=  __webpack_require__(5),List=$__0.List;
+	var easings = __webpack_require__(182);
 
 	module.exports = Form;
 	for(var PureRenderComponent____Key in PureRenderComponent){if(PureRenderComponent.hasOwnProperty(PureRenderComponent____Key)){Form[PureRenderComponent____Key]=PureRenderComponent[PureRenderComponent____Key];}}var ____SuperProtoOfPureRenderComponent=PureRenderComponent===null?null:PureRenderComponent.prototype;Form.prototype=Object.create(____SuperProtoOfPureRenderComponent);Form.prototype.constructor=Form;Form.__superConstructor__=PureRenderComponent;function Form(){"use strict";if(PureRenderComponent!==null){PureRenderComponent.apply(this,arguments);}}
@@ -26637,6 +26638,7 @@
 	        var animationProps = currentAnimationObj.get('options').toJS();
 	        animationProps.target = currentTarget;
 	        animationProps.mode = animationMode;
+	        animationProps.easing = easings[this.props.easing];
 	        animationActions[currentAnimation](animationProps);
 	    }});
 
