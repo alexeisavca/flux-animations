@@ -16,6 +16,10 @@ class Form extends PureRenderComponent {
         this.props.setAnimationMode(event.target.value);
     }
 
+    updateEasing(event){
+        this.props.updateEasing(event.target.value);
+    }
+
     doAnimation(event){
         event.preventDefault();
         var {currentAnimation, animationActions, currentTarget, animationMode, animations} = this.props;
@@ -27,8 +31,8 @@ class Form extends PureRenderComponent {
     }
 
     render() {
-        var {animations, targets, currentAnimation, currentTarget, updateAnimationOption, animationMode,
-            setAnimationMode} = this.props;
+        var {animations, targets, currentAnimation, currentTarget, updateAnimationOption, animationMode, easings,
+            easing} = this.props;
         var currentAnimationObj = animations.find(animation => animation.get('slug') == currentAnimation);
         var CurrentAnimationOptions = currentAnimationObj.get('component');
         var currentAnimationProps = currentAnimationObj.get('options').toJS();
@@ -61,6 +65,15 @@ class Form extends PureRenderComponent {
                         </select>
                     </div>
                     &nbsp;
+                    <div className="form-group">
+                        <label>ease</label>
+                        <select className="form-control" value={easing} onChange={this.updateEasing.bind(this)}>
+                            {easings.map(easing => (
+                                <option value={easing} key={easing}>{easing}</option>
+                            ))}
+                        </select>
+                    </div>
+                    &nbsp;
                     <button type="submit" className="btn btn-default">Go!</button>
                 </form>
             </div>
@@ -68,7 +81,7 @@ class Form extends PureRenderComponent {
     }
 }
 
-var {instanceOf, string, func, shape, oneOf} = React.PropTypes;
+var {instanceOf, string, func, shape, arrayOf, oneOf} = React.PropTypes;
 var requiredFunc = func.isRequired;
 var requiredString = string.isRequired;
 Form.propTypes = {
@@ -84,5 +97,8 @@ Form.propTypes = {
     animationActions: shape({
         fade: requiredFunc,
         resize: requiredFunc
-    }).isRequired
+    }).isRequired,
+    easings: arrayOf(string).isRequired,
+    easing: requiredString,
+    updateEasing: requiredFunc
 };

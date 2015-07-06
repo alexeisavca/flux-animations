@@ -7,9 +7,10 @@ export default class GlobalStateStore extends ProtoStore{
             [constants.CURRENT_ANIMATION_CHANGED]: 'setCurrentAnimation',
             [constants.CURRENT_TARGET_CHANGED]: 'setCurrentTarget',
             [constants.ANIMATION_OPTION_CHANGED]: 'updateAnimationOption',
-            [constants.ANIMATION_MODE_CHANGED]: 'setAnimationMode'
+            [constants.ANIMATION_MODE_CHANGED]: 'setAnimationMode',
+            [constants.EASING_CHANGED]: 'setEasing'
         });
-        ["CurrentAnimation", "CurrentTarget", "Animations", "AnimationMode"].forEach(this.createProperty.bind(this));
+        ["CurrentAnimation", "CurrentTarget", "Animations", "AnimationMode", "Easing"].forEach(this.createProperty.bind(this));
         this.setAnimations(List());
     }
 

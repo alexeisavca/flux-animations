@@ -2,6 +2,9 @@ var React = require('react');
 var DemoApp = require('./components/demo-app');
 var {List, Map} = require('immutable');
 var Flux = require('./simple-flux');
+var easings = require('keyframes.js/easings');
+var Easing = easings.Easing;
+easings = Object.keys(easings).filter(key => easings[key] instanceof Easing);
 var targets = List([
     Map({
         name: "Paragraph",
@@ -40,6 +43,7 @@ globalStateStore.setAnimations(List([
 globalStateStore.setCurrentAnimation("fade");
 globalStateStore.setCurrentTarget('image');
 globalStateStore.setAnimationMode('css');
+globalStateStore.setEasing('linear');
 var animationsStore = flux.store("animationsStore");
 
 flux.setOnStoreUpdateListener(function(){
@@ -52,5 +56,7 @@ flux.setOnStoreUpdateListener(function(){
         actions={flux.actions}
         imageStyle={animationsStore.getStyleFor("image")}
         paragraphStyle={animationsStore.getStyleFor("paragraph")}
+        easings={easings}
+        easing={globalStateStore.getEasing()}
     />, document.getElementById('the-container'));
 });

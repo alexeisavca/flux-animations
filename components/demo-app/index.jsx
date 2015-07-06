@@ -6,8 +6,8 @@ var {List, Map} = require('immutable');
 module.exports = DemoApp;
 class DemoApp extends PureRenderComponent {
     render() {
-        var {animations, targets, currentAnimation, currentTarget, actions, animationMode, imageStyle,
-            paragraphStyle} = this.props;
+        var {animations, targets, currentAnimation, currentTarget, actions, animationMode, imageStyle, paragraphStyle,
+            easings, easing} = this.props;
         return (
             <div className="row">
                 <div className="col-md-12 text-center">
@@ -24,6 +24,9 @@ class DemoApp extends PureRenderComponent {
                     updateAnimationOption={actions.updateAnimationOption.bind(this.props.actions)}
                     setAnimationMode={actions.setAnimationMode.bind(this.props.actions)}
                     animationActions={actions.animations}
+                    easings={easings}
+                    easing={easing}
+                    updateEasing={actions.updateEasing.bind(this.props.actions)}
                 />
                 <div className="col-md-6" style={{marginTop: 10}}>
                     <img src="http://placekitten.com/400/600" alt="" style={imageStyle.toJS()}/>
@@ -46,25 +49,29 @@ class DemoApp extends PureRenderComponent {
     }
 }
 
-var {instanceOf, string, func, shape, oneOf, object} = React.PropTypes;
+var {instanceOf, string, func, shape, oneOf, arrayOf, object} = React.PropTypes;
 var requiredFunc = func.isRequired;
 var requiredMap = instanceOf(Map).isRequired;
+var requiredString = string.isRequired
 DemoApp.propTypes = {
     animations: instanceOf(List),
     target: instanceOf(List),
-    currentAnimation: string.isRequired,
-    currentTarget: string.isRequired,
+    currentAnimation: requiredString,
+    currentTarget: requiredString,
     animationMode: oneOf(['js', 'css']).isRequired,
     actions: shape({
         setCurrentAnimation: requiredFunc,
         setCurrentTarget: requiredFunc,
         updateAnimationOption: requiredFunc,
         setAnimationMode: requiredFunc,
+        updateEasing: requiredFunc,
         animations: shape({
             fade: requiredFunc,
             resize: requiredFunc
         }).isRequired
     }).isRequired,
     imageStyle: requiredMap,
-    paragraphStyle: requiredMap
+    paragraphStyle: requiredMap,
+    easings: arrayOf(string).isRequired,
+    easing: requiredString
 };

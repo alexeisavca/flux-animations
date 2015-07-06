@@ -27,4 +27,8 @@ export default class Actions{
             value: value
         })
     }
+
+    updateEasing(easing){
+        this.dispatch(constants.EASING_CHANGED, easing);
+    }
 };
