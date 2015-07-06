@@ -21,15 +21,15 @@ export default class Actions {
         throw new Error("Implement me");
     }
 
-    fade({target, from, to, duration, mode}){
+    fade({target, from, to, duration, mode, easing}){
         var _mode = mode || 'css';
         var cb = ('js' == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
-        cb(target, new FadeAnimation(from, to, duration));
+        cb(target, new FadeAnimation(from, to, duration, easing));
     }
 
-    resize({target, from, to, duration, mode}){
+    resize({target, from, to, duration, mode, easing}){
         var _mode = mode || 'css';
         var cb = ('js' == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
-        cb(target, new ScaleAnimation(from, to, duration));
+        cb(target, new ScaleAnimation(from, to, duration, easing));
     }
 };
