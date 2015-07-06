@@ -50,8 +50,8 @@
 	var Flux = __webpack_require__(1);
 	var targets = List([
 	    Map({
-	        name: "Box",
-	        slug: "box"
+	        name: "Paragraph",
+	        slug: "paragraph"
 	    }),
 	    Map({
 	        name: "Image",
@@ -75,8 +75,12 @@
 	    Map({
 	        name: "Resize",
 	        slug: "resize",
-	        component: __webpack_require__(174)('resize options'),
-	        options: Map()
+	        component: __webpack_require__(175),
+	        options: Map({
+	            from: 1,
+	            to: 0,
+	            duration: 1000
+	        })
 	    })
 	]));
 	globalStateStore.setCurrentAnimation("fade");
@@ -92,7 +96,8 @@
 	        currentTarget: globalStateStore.getCurrentTarget(), 
 	        animationMode: globalStateStore.getAnimationMode(), 
 	        actions: flux.actions, 
-	        imageStyle: animationsStore.getStyleFor("image")}
+	        imageStyle: animationsStore.getStyleFor("image"), 
+	        paragraphStyle: animationsStore.getStyleFor("paragraph")}
 	    ), document.getElementById('the-container'));
 	});
 
@@ -5290,8 +5295,8 @@
 	        key: "resize",
 	        value: function resize(_ref3) {
 	            var target = _ref3.target;
-	            var fromScale = _ref3.fromScale;
-	            var toScale = _ref3.toScale;
+	            var from = _ref3.from;
+	            var to = _ref3.to;
 	            var duration = _ref3.duration;
 	            var mode = _ref3.mode;
 
@@ -5300,10 +5305,10 @@
 	            cb({
 	                target: target,
 	                from: {
-	                    transform: "scale(" + fromScale + ")"
+	                    transform: "scale(" + from + ")"
 	                },
 	                to: {
-	                    transform: "scale(" + toScale + ")"
+	                    transform: "scale(" + to + ")"
 	                },
 	                duration: duration
 	            });
@@ -7177,8 +7182,7 @@
 	    }, {
 	        key: "getStyleFor",
 	        value: function getStyleFor(target) {
-	            var style = this.getAnimatables().getIn([target, "style"]);
-	            return style && style.toJS();
+	            return this.getAnimatables().getIn([target, "style"]) || (0, _immutable.Map)();
 	        }
 	    }, {
 	        key: "getClassNameFor",
@@ -27622,12 +27626,13 @@
 	var React = __webpack_require__(14);
 	var PureRenderComponent = __webpack_require__(171);
 	var Form = __webpack_require__(172);
-	var $__0=  __webpack_require__(5),List=$__0.List;
+	var $__0=   __webpack_require__(5),List=$__0.List,Map=$__0.Map;
 
 	module.exports = DemoApp;
 	for(var PureRenderComponent____Key in PureRenderComponent){if(PureRenderComponent.hasOwnProperty(PureRenderComponent____Key)){DemoApp[PureRenderComponent____Key]=PureRenderComponent[PureRenderComponent____Key];}}var ____SuperProtoOfPureRenderComponent=PureRenderComponent===null?null:PureRenderComponent.prototype;DemoApp.prototype=Object.create(____SuperProtoOfPureRenderComponent);DemoApp.prototype.constructor=DemoApp;DemoApp.__superConstructor__=PureRenderComponent;function DemoApp(){"use strict";if(PureRenderComponent!==null){PureRenderComponent.apply(this,arguments);}}
 	    Object.defineProperty(DemoApp.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
-	        var $__0=        this.props,animations=$__0.animations,targets=$__0.targets,currentAnimation=$__0.currentAnimation,currentTarget=$__0.currentTarget,actions=$__0.actions,animationMode=$__0.animationMode,imageStyle=$__0.imageStyle;
+	        var $__0=      
+	              this.props,animations=$__0.animations,targets=$__0.targets,currentAnimation=$__0.currentAnimation,currentTarget=$__0.currentTarget,actions=$__0.actions,animationMode=$__0.animationMode,imageStyle=$__0.imageStyle,paragraphStyle=$__0.paragraphStyle;
 	        return (
 	            React.createElement("div", {className: "row"}, 
 	                React.createElement("div", {className: "col-md-12 text-center"}, 
@@ -27645,8 +27650,21 @@
 	                    setAnimationMode: actions.setAnimationMode.bind(this.props.actions), 
 	                    animationActions: actions.animations}
 	                ), 
-	                React.createElement("div", {className: "col-md-12", style: {marginTop: 10}}, 
-	                    React.createElement("img", {src: "https://placekitten.com/1000/600", alt: "", style: imageStyle})
+	                React.createElement("div", {className: "col-md-6", style: {marginTop: 10}}, 
+	                    React.createElement("img", {src: "http://placekitten.com/400/600", alt: "", style: imageStyle.toJS()})
+	                ), 
+	                React.createElement("div", {className: "col-md-6", style: {marginTop: 10}}, 
+	                    React.createElement("p", {style: paragraphStyle.toJS()}, 
+	                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id tristique purus. Morbi tincidunt est vitae massa volutpat posuere. Mauris ut faucibus nisi. Sed quis semper velit. Aliquam elementum mi eu enim pulvinar mattis. In porta in turpis non pretium. Aenean at facilisis diam. Morbi non iaculis eros." + " " +
+
+	                        "Aliquam condimentum iaculis dolor, vel aliquet enim pretium non. Duis vel libero vel dolor sagittis suscipit vel non libero. Suspendisse venenatis at velit vel tempor. Etiam et elementum massa. Pellentesque auctor lacus vulputate congue blandit. Phasellus consequat, est eu consectetur porttitor, lacus est dignissim dolor, sit amet pulvinar eros risus id massa. Sed nisi tortor, lacinia sit amet nisi non, commodo sagittis turpis. Aenean pretium lectus at laoreet iaculis. Phasellus porttitor sapien id hendrerit rutrum. Integer vel ullamcorper nunc. Vestibulum dui ipsum, sollicitudin ac odio eget, tincidunt ultricies sem. Donec suscipit eros orci, vel egestas sem sollicitudin tempor. Maecenas placerat ligula eget ipsum rutrum, ut suscipit nisl fringilla." + " " +
+
+	                        "Sed rutrum nec nulla a ultrices. Morbi egestas quam in sapien vulputate, at ornare est placerat. Praesent sit amet arcu a justo elementum dictum. Ut lacinia vel sem ut tincidunt. Sed vel facilisis augue. Vestibulum feugiat diam at efficitur luctus. Sed vel ultricies purus. Vestibulum tincidunt, nisi sit amet accumsan pharetra, velit quam auctor magna, eu viverra nunc ligula hendrerit elit. Proin in tempor nisl, id feugiat ipsum. Morbi consequat neque purus, a feugiat turpis suscipit elementum. Sed rhoncus dictum rutrum. Sed et nulla non leo placerat elementum sed ut risus." + " " +
+
+	                        "Pellentesque eu rutrum mauris. Nunc pulvinar aliquet urna vitae gravida. Suspendisse eget sapien ipsum. In porttitor orci ut tincidunt facilisis. Donec aliquam ornare aliquam. Nunc odio ex, tempus ut efficitur vitae, vehicula ut ipsum. Vestibulum consequat rhoncus sapien, at fermentum libero vulputate vel. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris aliquet blandit nulla, non interdum ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed interdum ipsum dolor, eu placerat odio semper a. Pellentesque sit amet est non massa ornare congue. Duis ac tempus orci. Quisque tincidunt, lacus in semper vulputate, nulla sapien tempor tortor, sed posuere ante risus varius nisl. Vestibulum tristique felis quam, feugiat iaculis nisl rhoncus ac." + " " +
+
+	                        "Praesent in elit accumsan, rhoncus ligula et, vehicula nunc. Vivamus porttitor enim et aliquet cursus. In pretium metus nisl, vel mattis leo hendrerit ac. Phasellus porttitor nisl quis ornare vestibulum. Nullam sed leo nisi. Praesent commodo dolor in enim dictum blandit. In nibh ligula, lobortis quis egestas ac, maximus at tellus. Proin placerat sed mauris id suscipit. Nulla blandit consequat diam, aliquam tempus sapien. Donec iaculis dui tortor, in molestie purus placerat nec. Nunc rhoncus molestie turpis, at lobortis mauris venenatis sed. Duis hendrerit efficitur nisi id ullamcorper. In in augue purus. Proin consectetur libero sit amet tortor congue, ut auctor lacus faucibus."
+	                    )
 	                )
 	            )
 	        )
@@ -27655,6 +27673,7 @@
 
 	var $__1=       React.PropTypes,instanceOf=$__1.instanceOf,string=$__1.string,func=$__1.func,shape=$__1.shape,oneOf=$__1.oneOf,object=$__1.object;
 	var requiredFunc = func.isRequired;
+	var requiredMap = instanceOf(Map).isRequired;
 	DemoApp.propTypes = {
 	    animations: instanceOf(List),
 	    target: instanceOf(List),
@@ -27671,7 +27690,8 @@
 	            resize: requiredFunc
 	        }).isRequired
 	    }).isRequired,
-	    imageStyle: object.isRequired
+	    imageStyle: requiredMap,
+	    paragraphStyle: requiredMap
 	};
 
 /***/ },
@@ -27853,18 +27873,71 @@
 	};
 
 /***/ },
-/* 174 */
+/* 174 */,
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(14);
-	module.exports = function(name){
-	    return (function(){var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){____Class0[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;____Class0.prototype=Object.create(____SuperProtoOf____Class1);____Class0.prototype.constructor=____Class0;____Class0.__superConstructor__=____Class1;function ____Class0(){"use strict";if(____Class1!==null){____Class1.apply(this,arguments);}}
-	        Object.defineProperty(____Class0.prototype,"render",{writable:true,configurable:true,value:function(){"use strict";
-	            return (
-	                React.createElement("span", null, "Implement ", name)
+	var PureRenderComponent = __webpack_require__(171);
+	module.exports = ResizeOptions;
+	for(var PureRenderComponent____Key in PureRenderComponent){if(PureRenderComponent.hasOwnProperty(PureRenderComponent____Key)){ResizeOptions[PureRenderComponent____Key]=PureRenderComponent[PureRenderComponent____Key];}}var ____SuperProtoOfPureRenderComponent=PureRenderComponent===null?null:PureRenderComponent.prototype;ResizeOptions.prototype=Object.create(____SuperProtoOfPureRenderComponent);ResizeOptions.prototype.constructor=ResizeOptions;ResizeOptions.__superConstructor__=PureRenderComponent;function ResizeOptions(){"use strict";if(PureRenderComponent!==null){PureRenderComponent.apply(this,arguments);}}
+	    Object.defineProperty(ResizeOptions.prototype,"updateAnimationOptions",{writable:true,configurable:true,value:function(optionName, event){"use strict";
+	        this.props.updateAnimationOption('resize', optionName, parseFloat(event.target.value));
+	    }});
+
+	    Object.defineProperty(ResizeOptions.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
+	        var $__0=    this.props,from=$__0.from,to=$__0.to,duration=$__0.duration;
+	        return (
+	            React.createElement("span", null, 
+	                React.createElement("div", {className: "form-group"}, 
+	                    React.createElement("label", null, "From:"), 
+	                    React.createElement("input", {
+	                        type: "number", 
+	                        className: "form-control", 
+	                        value: from, 
+	                        onChange: this.updateAnimationOptions.bind(this, 'from'), 
+	                        step: "0.1", 
+	                        min: "0", 
+	                        max: "1"}
+	                    )
+	                ), 
+	                " ", 
+	                React.createElement("div", {className: "form-group"}, 
+	                    React.createElement("label", null, "To:"), 
+	                    React.createElement("input", {
+	                        type: "number", 
+	                        className: "form-control", 
+	                        value: to, 
+	                        onChange: this.updateAnimationOptions.bind(this, 'to'), 
+	                        step: "0.1", 
+	                        min: "0", 
+	                        max: "1"}
+	                    )
+	                ), 
+	                " ", 
+	                React.createElement("div", {className: "form-group"}, 
+	                    React.createElement("label", null, "During:"), 
+	                    React.createElement("input", {
+	                        type: "number", 
+	                        className: "form-control", 
+	                        value: duration, 
+	                        onChange: this.updateAnimationOptions.bind(this, 'duration'), 
+	                        min: "0"}
+	                    ), 
+	                    " ", 
+	                    React.createElement("label", null, "ms")
+	                )
 	            )
-	        }});
-	    return ____Class0;})()
+	        )
+	    }});
+
+	var $__0=   React.PropTypes,number=$__0.number,func=$__0.func;
+	var requiredNumber = number.isRequired;
+	ResizeOptions.propTypes = {
+	    from: requiredNumber,
+	    to: requiredNumber,
+	    duration: requiredNumber,
+	    updateAnimationOption: func.isRequired
 	};
 
 /***/ }

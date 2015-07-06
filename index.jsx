@@ -4,8 +4,8 @@ var {List, Map} = require('immutable');
 var Flux = require('./simple-flux');
 var targets = List([
     Map({
-        name: "Box",
-        slug: "box"
+        name: "Paragraph",
+        slug: "paragraph"
     }),
     Map({
         name: "Image",
@@ -29,8 +29,12 @@ globalStateStore.setAnimations(List([
     Map({
         name: "Resize",
         slug: "resize",
-        component: require('./components/placeholder')('resize options'),
-        options: Map()
+        component: require('./components/resize-options'),
+        options: Map({
+            from: 1,
+            to: 0,
+            duration: 1000
+        })
     })
 ]));
 globalStateStore.setCurrentAnimation("fade");
@@ -47,5 +51,6 @@ flux.setOnStoreUpdateListener(function(){
         animationMode={globalStateStore.getAnimationMode()}
         actions={flux.actions}
         imageStyle={animationsStore.getStyleFor("image")}
+        paragraphStyle={animationsStore.getStyleFor("paragraph")}
     />, document.getElementById('the-container'));
 });
