@@ -1,5 +1,6 @@
-import Tweenable from "shifty";
 import {JS_ANIMATION_FRAME} from "./constants";
+import FadeAnimation from "keyframes.js/animation/fade";
+import ScaleAnimation from "keyframes.js/animation/scale";
 export default class Actions {
     constructor(dispatcher){
         this.dispatch = function(action, payload){
@@ -7,53 +8,28 @@ export default class Actions {
         }
     }
 
-    animateWithJs({target, from, to, duration}){
-        var tweenable = new Tweenable();
-        tweenable.tween({
-            from: from,
-            to: to,
-            duration: duration,
-            step: (state) => {
-                this.dispatch(JS_ANIMATION_FRAME, {
-                    target: target,
-                    style: state
-                });
-            }
+    animateWithJs(target, animation){
+        animation.play( state => {
+            this.dispatch(JS_ANIMATION_FRAME, {
+                target: target,
+                style: state
+            })
         })
     }
 
-    animateWithCss(){
+    animateWithCss(target, animation){
         throw new Error("Implement me");
     }
-
 
     fade({target, from, to, duration, mode}){
         var _mode = mode || 'css';
         var cb = ('js' == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
-        cb({
-            target: target,
-            from: {
-                opacity: from
-            },
-            to: {
-                opacity: to
-            },
-            duration: duration
-        })
+        cb(target, new FadeAnimation(from, to, duration));
     }
 
     resize({target, from, to, duration, mode}){
         var _mode = mode || 'css';
         var cb = ('js' == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
-        cb({
-            target: target,
-            from: {
-                transform: `scale(${from})`
-            },
-            to: {
-                transform: `scale(${to})`
-            },
-            duration: duration
-        })
+        cb(target, new ScaleAnimation(from, to, duration));
     }
 };
