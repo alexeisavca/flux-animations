@@ -15,8 +15,7 @@ export default class extends ProtoStore{
     }
 
     getStyleFor(target){
-        var style = this.getAnimatables().getIn([target, 'style']);
-        return style && style.toJS();
+        return this.getAnimatables().getIn([target, 'style']) || Map();
     }
 
     getClassNameFor(target){

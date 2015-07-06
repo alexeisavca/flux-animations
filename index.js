@@ -148,8 +148,8 @@
 	        key: "resize",
 	        value: function resize(_ref3) {
 	            var target = _ref3.target;
-	            var fromScale = _ref3.fromScale;
-	            var toScale = _ref3.toScale;
+	            var from = _ref3.from;
+	            var to = _ref3.to;
 	            var duration = _ref3.duration;
 	            var mode = _ref3.mode;
 
@@ -158,10 +158,10 @@
 	            cb({
 	                target: target,
 	                from: {
-	                    transform: "scale(" + fromScale + ")"
+	                    transform: "scale(" + from + ")"
 	                },
 	                to: {
-	                    transform: "scale(" + toScale + ")"
+	                    transform: "scale(" + to + ")"
 	                },
 	                duration: duration
 	            });
@@ -1845,23 +1845,34 @@
 
 	var constants = _interopRequireWildcard(_constantsEs6);
 
-	var AnimationsStore = (function (_Store) {
-	    function AnimationsStore() {
+	var _default = (function (_ProtoStore) {
+	    var _class = function _default() {
 	        var _this = this;
 
-	        _classCallCheck(this, AnimationsStore);
+	        _classCallCheck(this, _class);
 
-	        _get(Object.getPrototypeOf(AnimationsStore.prototype), "constructor", this).call(this, _defineProperty({}, constants.JS_ANIMATION_FRAME, "updateAnimatableStyle"));
+	        _get(Object.getPrototypeOf(_class.prototype), "constructor", this).call(this, _defineProperty({}, constants.JS_ANIMATION_FRAME, "updateAnimatableStyle"));
 	        ["Animatables"].forEach(function (property) {
 	            return _this.createProperty(property);
 	        });
-	    }
+	        this.setAnimatables((0, _immutable.Map)());
+	    };
 
-	    _inherits(AnimationsStore, _Store);
+	    _inherits(_class, _ProtoStore);
 
-	    _createClass(AnimationsStore, [{
+	    _createClass(_class, [{
+	        key: "updateAnimatableStyle",
+	        value: function updateAnimatableStyle(_ref) {
+	            var target = _ref.target;
+	            var style = _ref.style;
+
+	            this.setAnimatables(this.getAnimatables().setIn([target, "style"], (0, _immutable.Map)(style)));
+	        }
+	    }, {
 	        key: "getStyleFor",
-	        value: function getStyleFor(target) {}
+	        value: function getStyleFor(target) {
+	            return this.getAnimatables().getIn([target, "style"]) || (0, _immutable.Map)();
+	        }
 	    }, {
 	        key: "getClassNameFor",
 	        value: function getClassNameFor(target) {}
@@ -1870,10 +1881,10 @@
 	        value: function getCssAnimations() {}
 	    }]);
 
-	    return AnimationsStore;
-	})(Store);
+	    return _class;
+	})(_protoStoreEs62["default"]);
 
-	exports["default"] = AnimationsStore;
+	exports["default"] = _default;
 	;
 	module.exports = exports["default"];
 
@@ -6828,9 +6839,9 @@
 	var List = _require.List;
 	var Map = _require.Map;
 
-	var Store = (function () {
-	    function Store(actions) {
-	        _classCallCheck(this, Store);
+	var _default = (function () {
+	    var _class = function _default(actions) {
+	        _classCallCheck(this, _class);
 
 	        this.process = function (action, payload) {
 	            if ('undefined' != typeof actions[action]) {
@@ -6839,9 +6850,9 @@
 	        };
 	        ['OnUpdateListener'].forEach(this.createProperty.bind(this));
 	        this.setOnUpdateListener(function () {});
-	    }
+	    };
 
-	    _createClass(Store, [{
+	    _createClass(_class, [{
 	        key: 'createProperty',
 	        value: function createProperty(capitalizedName) {
 	            var value;
@@ -6855,10 +6866,10 @@
 	        }
 	    }]);
 
-	    return Store;
+	    return _class;
 	})();
 
-	exports['default'] = Store;
+	exports['default'] = _default;
 	;
 	module.exports = exports['default'];
 
