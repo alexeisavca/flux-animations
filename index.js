@@ -56,7 +56,7 @@
 
 	var _actions2 = _interopRequireDefault(_actions);
 
-	var _store = __webpack_require__(10);
+	var _store = __webpack_require__(11);
 
 	var _store2 = _interopRequireDefault(_store);
 
@@ -79,13 +79,13 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var _constants = __webpack_require__(3);
+	var _constants = __webpack_require__(2);
 
-	var _keyframesJsAnimationFade = __webpack_require__(4);
+	var _keyframesJsAnimationFade = __webpack_require__(3);
 
 	var _keyframesJsAnimationFade2 = _interopRequireDefault(_keyframesJsAnimationFade);
 
-	var _keyframesJsAnimationScale = __webpack_require__(13);
+	var _keyframesJsAnimationScale = __webpack_require__(9);
 
 	var _keyframesJsAnimationScale2 = _interopRequireDefault(_keyframesJsAnimationScale);
 
@@ -123,10 +123,11 @@
 	            var to = _ref.to;
 	            var duration = _ref.duration;
 	            var mode = _ref.mode;
+	            var easing = _ref.easing;
 
 	            var _mode = mode || "css";
 	            var cb = ("js" == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
-	            cb(target, new _keyframesJsAnimationFade2["default"](from, to, duration));
+	            cb(target, new _keyframesJsAnimationFade2["default"](from, to, duration, easing));
 	        }
 	    }, {
 	        key: "resize",
@@ -136,10 +137,11 @@
 	            var to = _ref2.to;
 	            var duration = _ref2.duration;
 	            var mode = _ref2.mode;
+	            var easing = _ref2.easing;
 
 	            var _mode = mode || "css";
 	            var cb = ("js" == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
-	            cb(target, new _keyframesJsAnimationScale2["default"](from, to, duration));
+	            cb(target, new _keyframesJsAnimationScale2["default"](from, to, duration, easing));
 	        }
 	    }]);
 
@@ -151,8 +153,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 2 */,
-/* 3 */
+/* 2 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -164,7 +165,7 @@
 	exports.JS_ANIMATION_FRAME = JS_ANIMATION_FRAME;
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -181,20 +182,20 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-	var _index = __webpack_require__(5);
+	var _index = __webpack_require__(4);
 
 	var _index2 = _interopRequireDefault(_index);
 
-	var _actorOpacity = __webpack_require__(7);
+	var _actorOpacity = __webpack_require__(6);
 
 	var _actorOpacity2 = _interopRequireDefault(_actorOpacity);
 
 	var _default = (function (_Animation) {
-	    var _class = function _default(from, to, duration) {
+	    var _class = function _default(from, to, duration, easing) {
 	        _classCallCheck(this, _class);
 
 	        _get(Object.getPrototypeOf(_class.prototype), "constructor", this).call(this);
-	        this.addActor(new _actorOpacity2["default"](from, to, duration));
+	        this.addActor(new _actorOpacity2["default"](from, to, duration, easing));
 	    };
 
 	    _inherits(_class, _Animation);
@@ -206,7 +207,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -223,7 +224,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var _toolsMerge = __webpack_require__(6);
+	var _toolsMerge = __webpack_require__(5);
 
 	var _toolsMerge2 = _interopRequireDefault(_toolsMerge);
 
@@ -277,7 +278,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -301,7 +302,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -318,12 +319,12 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-	var _index = __webpack_require__(8);
+	var _index = __webpack_require__(7);
 
 	var _index2 = _interopRequireDefault(_index);
 
 	var _default = (function (_Actor) {
-	    var _class = function _default(from, to, duration) {
+	    var _class = function _default(from, to, duration, easing) {
 	        _classCallCheck(this, _class);
 
 	        _get(Object.getPrototypeOf(_class.prototype), "constructor", this).call(this);
@@ -332,7 +333,7 @@
 	        });
 	        this.addKeyframe(duration, {
 	            opacity: to
-	        });
+	        }, easing);
 	    };
 
 	    _inherits(_class, _Actor);
@@ -344,7 +345,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -359,7 +360,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var _easings = __webpack_require__(9);
+	var _easings = __webpack_require__(8);
 
 	var _default = (function () {
 	    var _class = function _default() {
@@ -425,7 +426,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -600,7 +601,92 @@
 	exports.easeInOutCirc = easeInOutCirc;
 
 /***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _index = __webpack_require__(4);
+
+	var _index2 = _interopRequireDefault(_index);
+
+	var _actorScale = __webpack_require__(10);
+
+	var _actorScale2 = _interopRequireDefault(_actorScale);
+
+	var _default = (function (_Animation) {
+	    var _class = function _default(from, to, duration, easing) {
+	        _classCallCheck(this, _class);
+
+	        _get(Object.getPrototypeOf(_class.prototype), "constructor", this).call(this);
+	        this.addActor(new _actorScale2["default"](from, to, duration, easing));
+	    };
+
+	    _inherits(_class, _Animation);
+
+	    return _class;
+	})(_index2["default"]);
+
+	exports["default"] = _default;
+	module.exports = exports["default"];
+
+/***/ },
 /* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _index = __webpack_require__(7);
+
+	var _index2 = _interopRequireDefault(_index);
+
+	var _default = (function (_Actor) {
+	    var _class = function _default(from, to, duration, easing) {
+	        _classCallCheck(this, _class);
+
+	        _get(Object.getPrototypeOf(_class.prototype), "constructor", this).call(this);
+	        this.addKeyframe(0, {
+	            transform: "scale(" + from + ")"
+	        });
+	        this.addKeyframe(duration, {
+	            transform: "scale(" + to + ")"
+	        }, easing);
+	    };
+
+	    _inherits(_class, _Actor);
+
+	    return _class;
+	})(_index2["default"]);
+
+	exports["default"] = _default;
+	module.exports = exports["default"];
+
+/***/ },
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -623,13 +709,13 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-	var _immutable = __webpack_require__(11);
+	var _immutable = __webpack_require__(12);
 
-	var _protoStoreEs6 = __webpack_require__(12);
+	var _protoStoreEs6 = __webpack_require__(13);
 
 	var _protoStoreEs62 = _interopRequireDefault(_protoStoreEs6);
 
-	var _constantsEs6 = __webpack_require__(3);
+	var _constantsEs6 = __webpack_require__(2);
 
 	var constants = _interopRequireWildcard(_constantsEs6);
 
@@ -677,7 +763,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -5609,7 +5695,7 @@
 	}));
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5622,7 +5708,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var _require = __webpack_require__(11);
+	var _require = __webpack_require__(12);
 
 	var List = _require.List;
 	var Map = _require.Map;
@@ -5660,91 +5746,6 @@
 	exports['default'] = _default;
 	;
 	module.exports = exports['default'];
-
-/***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _index = __webpack_require__(5);
-
-	var _index2 = _interopRequireDefault(_index);
-
-	var _actorScale = __webpack_require__(14);
-
-	var _actorScale2 = _interopRequireDefault(_actorScale);
-
-	var _default = (function (_Animation) {
-	    var _class = function _default(from, to, duration) {
-	        _classCallCheck(this, _class);
-
-	        _get(Object.getPrototypeOf(_class.prototype), "constructor", this).call(this);
-	        this.addActor(new _actorScale2["default"](from, to, duration));
-	    };
-
-	    _inherits(_class, _Animation);
-
-	    return _class;
-	})(_index2["default"]);
-
-	exports["default"] = _default;
-	module.exports = exports["default"];
-
-/***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _index = __webpack_require__(8);
-
-	var _index2 = _interopRequireDefault(_index);
-
-	var _default = (function (_Actor) {
-	    var _class = function _default(from, to, duration) {
-	        _classCallCheck(this, _class);
-
-	        _get(Object.getPrototypeOf(_class.prototype), "constructor", this).call(this);
-	        this.addKeyframe(0, {
-	            transform: "scale(" + from + ")"
-	        });
-	        this.addKeyframe(duration, {
-	            transform: "scale(" + to + ")"
-	        });
-	    };
-
-	    _inherits(_class, _Actor);
-
-	    return _class;
-	})(_index2["default"]);
-
-	exports["default"] = _default;
-	module.exports = exports["default"];
 
 /***/ }
 /******/ ]);
