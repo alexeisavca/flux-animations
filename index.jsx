@@ -4,7 +4,7 @@ var {List, Map} = require('immutable');
 var Flux = require('./simple-flux');
 var easings = require('keyframes.js/easings');
 var Easing = easings.Easing;
-easings = Object.keys(easings).filter(key => easings[key] instanceof Easing);
+easings = Object.keys(easings).filter(key => "function" == typeof easings[key] && "ease" != key);
 var targets = List([
     Map({
         name: "Paragraph",
