@@ -1,6 +1,5 @@
 import {JS_ANIMATION_FRAME} from "./constants";
-import FadeAnimation from "keyframes.js/animation/fade";
-import ScaleAnimation from "keyframes.js/animation/scale";
+import * as K from "keyframes.js";
 export default class Actions {
     constructor(dispatcher){
         this.dispatch = function(action, payload){
@@ -8,8 +7,8 @@ export default class Actions {
         }
     }
 
-    animateWithJs(target, animation){
-        animation.play( state => {
+    animateWithJs(target, duration, tween){
+        K.stream(duration, tween, state => {
             this.dispatch(JS_ANIMATION_FRAME, {
                 target: target,
                 style: state
@@ -23,13 +22,15 @@ export default class Actions {
 
     fade({target, from, to, duration, mode, easing}){
         var _mode = mode || 'css';
+        var _ease = easing || K.easings.linear;
         var cb = ('js' == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
-        cb(target, new FadeAnimation(from, to, duration, easing));
+        cb(target, duration, K.prerender(duration, _ease(K.transition('opacity', from, to))));
     }
 
     resize({target, from, to, duration, mode, easing}){
         var _mode = mode || 'css';
+        var _ease = easing || K.easings.linear;
         var cb = ('js' == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
-        cb(target, new ScaleAnimation(from, to, duration, easing));
+        cb(target, duration, K.prerender(duration, _ease(K.transition('transform', `scale(${from})`, `scale(${to})`))));
     }
 };

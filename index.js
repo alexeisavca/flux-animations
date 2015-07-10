@@ -56,7 +56,7 @@
 
 	var _actions2 = _interopRequireDefault(_actions);
 
-	var _store = __webpack_require__(11);
+	var _store = __webpack_require__(4);
 
 	var _store2 = _interopRequireDefault(_store);
 
@@ -75,19 +75,15 @@
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var _constants = __webpack_require__(2);
 
-	var _keyframesJsAnimationFade = __webpack_require__(3);
+	var _keyframesJs = __webpack_require__(3);
 
-	var _keyframesJsAnimationFade2 = _interopRequireDefault(_keyframesJsAnimationFade);
-
-	var _keyframesJsAnimationScale = __webpack_require__(9);
-
-	var _keyframesJsAnimationScale2 = _interopRequireDefault(_keyframesJsAnimationScale);
+	var K = _interopRequireWildcard(_keyframesJs);
 
 	var Actions = (function () {
 	    function Actions(dispatcher) {
@@ -100,10 +96,10 @@
 
 	    _createClass(Actions, [{
 	        key: "animateWithJs",
-	        value: function animateWithJs(target, animation) {
+	        value: function animateWithJs(target, duration, tween) {
 	            var _this = this;
 
-	            animation.play(function (state) {
+	            K.stream(duration, tween, function (state) {
 	                _this.dispatch(_constants.JS_ANIMATION_FRAME, {
 	                    target: target,
 	                    style: state
@@ -126,8 +122,9 @@
 	            var easing = _ref.easing;
 
 	            var _mode = mode || "css";
+	            var _ease = easing || K.easings.linear;
 	            var cb = ("js" == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
-	            cb(target, new _keyframesJsAnimationFade2["default"](from, to, duration, easing));
+	            cb(target, duration, K.prerender(duration, _ease(K.transition("opacity", from, to))));
 	        }
 	    }, {
 	        key: "resize",
@@ -140,8 +137,9 @@
 	            var easing = _ref2.easing;
 
 	            var _mode = mode || "css";
+	            var _ease = easing || K.easings.linear;
 	            var cb = ("js" == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
-	            cb(target, new _keyframesJsAnimationScale2["default"](from, to, duration, easing));
+	            cb(target, duration, K.prerender(duration, _ease(K.transition("transform", "scale(" + from + ")", "scale(" + to + ")"))));
 	        }
 	    }]);
 
@@ -166,527 +164,518 @@
 
 /***/ },
 /* 3 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	"use strict";
+	module.exports =
+	/******/ (function(modules) { // webpackBootstrap
+	/******/ 	// The module cache
+	/******/ 	var installedModules = {};
 
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
+	/******/ 	// The require function
+	/******/ 	function __webpack_require__(moduleId) {
 
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	/******/ 		// Check if module is in cache
+	/******/ 		if(installedModules[moduleId])
+	/******/ 			return installedModules[moduleId].exports;
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	/******/ 		// Create a new module (and put it into the cache)
+	/******/ 		var module = installedModules[moduleId] = {
+	/******/ 			exports: {},
+	/******/ 			id: moduleId,
+	/******/ 			loaded: false
+	/******/ 		};
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	/******/ 		// Execute the module function
+	/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+	/******/ 		// Flag the module as loaded
+	/******/ 		module.loaded = true;
 
-	var _index = __webpack_require__(4);
+	/******/ 		// Return the exports of the module
+	/******/ 		return module.exports;
+	/******/ 	}
 
-	var _index2 = _interopRequireDefault(_index);
 
-	var _actorOpacity = __webpack_require__(6);
+	/******/ 	// expose the modules object (__webpack_modules__)
+	/******/ 	__webpack_require__.m = modules;
 
-	var _actorOpacity2 = _interopRequireDefault(_actorOpacity);
+	/******/ 	// expose the module cache
+	/******/ 	__webpack_require__.c = installedModules;
 
-	var _default = (function (_Animation) {
-	    var _class = function _default(from, to, duration, easing) {
-	        _classCallCheck(this, _class);
+	/******/ 	// __webpack_public_path__
+	/******/ 	__webpack_require__.p = "";
 
-	        _get(Object.getPrototypeOf(_class.prototype), "constructor", this).call(this);
-	        this.addActor(new _actorOpacity2["default"](from, to, duration, easing));
-	    };
+	/******/ 	// Load entry module and return exports
+	/******/ 	return __webpack_require__(0);
+	/******/ })
+	/************************************************************************/
+	/******/ ([
+	/* 0 */
+	/***/ function(module, exports, __webpack_require__) {
 
-	    _inherits(_class, _Animation);
+		"use strict";
 
-	    return _class;
-	})(_index2["default"]);
+		Object.defineProperty(exports, "__esModule", {
+		    value: true
+		});
+		exports.chainEvenly = chainEvenly;
+		exports.merge = merge;
+		exports.stream = stream;
+		exports.infiniteStream = infiniteStream;
 
-	exports["default"] = _default;
-	module.exports = exports["default"];
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+		function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
+
+		function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+		var _easings = __webpack_require__(1);
+
+		var easings = _interopRequireWildcard(_easings);
+
+		var _toolsNumberInterpolation = __webpack_require__(2);
+
+		var _toolsMerge = __webpack_require__(3);
+
+		var _toolsMerge2 = _interopRequireDefault(_toolsMerge);
+
+		var FRAMES = 60;
+		exports.FRAMES = FRAMES;
+
+		//given an initial start and end state...
+		var tween = function tween(from, to) {
+		    return (
+		        //...return a function, that for any float 0<t<1...
+		        function (t) {
+		            return Object.keys(from).reduce(
+		            //...for all the properties(width, height, opacity) of the initial state...
+		            function (state, property) {
+		                //...will extract numbers from the string("12px" => 12)
+		                var strFrom = from[property] + "";
+		                var numbersPlaceholder = (0, _toolsNumberInterpolation.placeholdNumbers)(strFrom);
+		                var fromNumbers = (0, _toolsNumberInterpolation.extractNumbers)(strFrom);
+		                var strTo = to[property] + "";
+		                var toNumbers = (0, _toolsNumberInterpolation.extractNumbers)(strTo);
+		                //...will compute the intermediary state of each number at t and will merge them into a CSS string again
+		                state[property] = (0, _toolsNumberInterpolation.interpolateNumbers)(numbersPlaceholder, fromNumbers.map(function (number, index) {
+		                    return number + (toNumbers[index] - number) * t;
+		                }));
+		                return state;
+		            }, {});
+		        }
+		    );
+		};
+
+		exports.tween = tween;
+		var transition = function transition(property, from, to) {
+		    return tween(_defineProperty({}, property, from), _defineProperty({}, property, to));
+		};
+
+		exports.transition = transition;
+		var ensure = function ensure(state) {
+		    return function () {
+		        return state;
+		    };
+		};
+
+		exports.ensure = ensure;
+		var ensureProperty = function ensureProperty(property, value) {
+		    return ensure(_defineProperty({}, property, value));
+		};
+
+		exports.ensureProperty = ensureProperty;
+		var reverse = function reverse(animation) {
+		    return function (t) {
+		        return animation(1 - t);
+		    };
+		};
+
+		exports.reverse = reverse;
+		var linger = function linger(t, animation) {
+		    return chain(_defineProperty({
+		        0: animation
+		    }, t, ensure(animation(1))));
+		};
+
+		exports.linger = linger;
+		var foreshadow = function foreshadow(t, animation) {
+		    return chain(_defineProperty({
+		        0: ensure(animation(0))
+		    }, t, animation));
+		};
+
+		exports.foreshadow = foreshadow;
+		var imposePresence = function imposePresence(from, to, animation) {
+		    var _chain3;
+
+		    return chain((_chain3 = {
+		        0: ensure(animation(0))
+		    }, _defineProperty(_chain3, from, animation), _defineProperty(_chain3, to, ensure(animation(1))), _chain3));
+		};
+
+		exports.imposePresence = imposePresence;
+		var toAndFrom = function toAndFrom(animation) {
+		    return chain({
+		        0: animation,
+		        .5: reverse(animation)
+		    });
+		};
+
+		exports.toAndFrom = toAndFrom;
+		var repeat = function repeat(times, animation) {
+		    var animations = {};
+		    for (var counter = 1; counter <= times; counter++) {
+		        animations[1 - counter / times] = animation;
+		    }
+		    return chain(animations);
+		};
+
+		exports.repeat = repeat;
+		var chain = function chain(animations) {
+		    return function (t) {
+		        //get the keys(starting time) of all the animations, ensure they're floats, then find all that precede t or start at t
+		        //the animation with the max starting time of those will be current animation
+		        var currentanimationIndex = Math.max.apply(null, Object.keys(animations).map(parseFloat).filter(function (time) {
+		            return time <= t;
+		        }));
+		        var currentanimation = animations[currentanimationIndex];
+		        var animationDuration =
+		        /*
+		         get the keys(starting time) of all the animations, ensure they're all floats, then find all that succeed t
+		         (but not those that start at t, because without that condition we might get the current animation itself)
+		         Add 1(end of the chain) in case current animation is the last one. The lowest number of those will be the t
+		         when current animation ends, we subtract the current animation's starting t to get its duration.
+		        */
+		        Math.min.apply(null, Object.keys(animations).map(parseFloat).filter(function (time) {
+		            return time > t;
+		        }).concat(1.0)) - currentanimationIndex;
+
+		        var relativeT = (t - currentanimationIndex) / animationDuration;
+		        return currentanimation(relativeT);
+		    };
+		};
+
+		exports.chain = chain;
+
+		function chainEvenly() {
+		    var _arguments2 = arguments;
+
+		    var timings = {};
+		    Object.keys(arguments).forEach(function (index) {
+		        timings[index / _arguments2.length] = _arguments2[index];
+		    });
+		    return chain(timings);
+		}
+
+		function merge() {
+		    var _arguments = arguments;
+		    return function (t) {
+		        return _toolsMerge2["default"].apply(null, Object.keys(_arguments).map(function (key) {
+		            return _arguments[key](t);
+		        }));
+		    };
+		}
+
+		var prerender = function prerender(time, animation) {
+		    var totalFrames = time / 1000 * FRAMES;
+		    var frames = [];
+		    for (var frame = 0; frame <= totalFrames; frame++) {
+		        frames[frame] = animation(frame / totalFrames);
+		    }
+		    return function (t) {
+		        return frames[Math.round(totalFrames * t)];
+		    };
+		};
+
+		exports.prerender = prerender;
+
+		function stream(duration, animation, cb, onEnd) {
+		    cb(animation(0));
+		    var start = new Date();
+		    var doFrame = function doFrame() {
+		        var now = new Date();
+		        var elapsed = now - start;
+		        var t = elapsed / duration;
+		        cb(animation(t <= 1 ? t : 1));
+		        if (elapsed < duration) {
+		            requestAnimationFrame(doFrame);
+		        } else if ("function" == typeof onEnd) {
+		            onEnd();
+		        }
+		    };
+		    requestAnimationFrame(doFrame);
+		}
+
+		function infiniteStream(duration, animation, cb) {
+		    var ended = false;
+		    var restartLoop = function restartLoop() {
+		        stream(duration, animation, cb, restartLoop);
+		    };
+		    stream(duration, animation, cb, restartLoop);
+		    return function () {
+		        ended = true;
+		    };
+		}
+
+		var intoDom = function intoDom(DOMElement) {
+		    return function (state) {
+		        return Object.keys(state).forEach(function (property) {
+		            return DOMElement.style[property] = state[property];
+		        });
+		    };
+		};
+
+		exports.intoDom = intoDom;
+		exports.easings = easings;
+
+	/***/ },
+	/* 1 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+		    value: true
+		});
+
+		var _toolsNumberInterpolation = __webpack_require__(2);
+
+		var ease = function ease(func, tween) {
+		    return function (t) {
+		        var initialState = tween(0);
+		        var currentState = tween(t);
+		        var easedState = {};
+		        Object.keys(initialState).forEach(function (property) {
+		            var strInitial = initialState[property] + "";
+		            var numbersPlaceholder = (0, _toolsNumberInterpolation.placeholdNumbers)(strInitial);
+		            var initialNumbers = (0, _toolsNumberInterpolation.extractNumbers)(strInitial);
+		            var strCurrent = currentState[property];
+		            var currentNumbers = (0, _toolsNumberInterpolation.extractNumbers)(strCurrent);
+		            easedState[property] = (0, _toolsNumberInterpolation.interpolateNumbers)(numbersPlaceholder, initialNumbers.map(function (number, index) {
+		                return func(t, 1, t, number, currentNumbers[index] - number);
+		            }));
+		        });
+		        return easedState;
+		    };
+		};
+
+		exports.ease = ease;
+		//BEGIN Robert Penner's easing formulas, stolen from: http://gizma.com/easing/
+		//CSS cubic bezier easings stolen from http://easings.net/
+
+		// simple linear tweening - no easing, no acceleration
+		var linear = function linear(tween) {
+		    return tween;
+		};
+
+		exports.linear = linear;
+		// quadratic easing in - accelerating from zero velocity
+		var easeInQuad = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    return change * Math.pow(progressRatio, 2) + value;
+		});
+
+		exports.easeInQuad = easeInQuad;
+		// quadratic easing out - decelerating to zero velocity
+		var easeOutQuad = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    return -change * progressRatio * (progressRatio - 2) + value;
+		});
+
+		exports.easeOutQuad = easeOutQuad;
+		// quadratic easing in/out - acceleration until halfway, then deceleration
+		var easeInOutQuad = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    var t = currentTime / (totalTime / 2);
+		    if (t < 1) return change / 2 * t * t + value;
+		    t--;
+		    return -change / 2 * (t * (t - 2) - 1) + value;
+		});
+
+		exports.easeInOutQuad = easeInOutQuad;
+		// cubic easing in - accelerating from zero velocity
+		var easeInCubic = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    return change * Math.pow(progressRatio, 3) + value;
+		});
+
+		exports.easeInCubic = easeInCubic;
+		// cubic easing out - decelerating to zero velocity
+		var easeOutCubic = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    return change * (Math.pow(progressRatio - 1, 3) + 1) + value;
+		});
+
+		exports.easeOutCubic = easeOutCubic;
+		// cubic easing in/out - acceleration until halfway, then deceleration
+		var easeInOutCubic = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    var t = currentTime / (totalTime / 2);
+		    if (t < 1) return change / 2 * Math.pow(t, 3) + value;
+		    t -= 2;
+		    return change / 2 * (Math.pow(t, 3) + 2) + value;
+		});
+
+		exports.easeInOutCubic = easeInOutCubic;
+		// quartic easing in - accelerating from zero velocity
+		var easeInQuart = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    return change * Math.pow(progressRatio, 4) + value;
+		});
+
+		exports.easeInQuart = easeInQuart;
+		// quartic easing out - decelerating to zero velocity
+		var easeOutQuart = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    return -change * (Math.pow(progressRatio - 1, 4) - 1) + value;
+		});
+
+		exports.easeOutQuart = easeOutQuart;
+		// quartic easing in/out - acceleration until halfway, then deceleration
+		var easeInOutQuart = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    var t = currentTime / (totalTime / 2);
+		    if (t < 1) return change / 2 * Math.pow(t, 4) + value;
+		    t -= 2;
+		    return -change / 2 * (Math.pow(t, 4) - 2) + value;
+		});
+
+		exports.easeInOutQuart = easeInOutQuart;
+		// quintic easing in - accelerating from zero velocity
+		var easeInQuint = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    return change * Math.pow(progressRatio, 5) + value;
+		});
+
+		exports.easeInQuint = easeInQuint;
+		// quintic easing out - decelerating to zero velocity
+		var easeOutQuint = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    return change * (Math.pow(progressRatio - 1, 5) + 1) + value;
+		});
+
+		exports.easeOutQuint = easeOutQuint;
+		// quintic easing in/out - acceleration until halfway, then deceleration
+		var easeInOutQuint = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    var t = currentTime / (totalTime / 2);
+		    if (t < 1) return change / 2 * Math.pow(t, 5) + value;
+		    t -= 2;
+		    return change / 2 * (Math.pow(t, 5) + 2) + value;
+		});
+
+		exports.easeInOutQuint = easeInOutQuint;
+		// sinusoidal easing in - accelerating from zero velocity
+		var easeInSine = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    return -change * Math.cos(progressRatio * (Math.PI / 2)) + change + value;
+		});
+
+		exports.easeInSine = easeInSine;
+		// sinusoidal easing out - decelerating to zero velocity
+		var easeOutSine = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    return change * Math.sin(progressRatio * (Math.PI / 2)) + value;
+		});
+
+		exports.easeOutSine = easeOutSine;
+		// sinusoidal easing in/out - accelerating until halfway, then decelerating
+		var easeInOutSine = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    return -change / 2 * (Math.cos(Math.PI * progressRatio) - 1) + value;
+		});
+
+		exports.easeInOutSine = easeInOutSine;
+		// exponential easing in - accelerating from zero velocity
+		var easeInExpo = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    return change * Math.pow(2, 10 * (progressRatio - 1)) + value;
+		});
+
+		exports.easeInExpo = easeInExpo;
+		// exponential easing out - decelerating to zero velocity
+		var easeOutExpo = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    return change * (-Math.pow(2, -10 * progressRatio) + 1) + value;
+		});
+
+		exports.easeOutExpo = easeOutExpo;
+		// exponential easing in/out - accelerating until halfway, then decelerating
+		var easeInOutExpo = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    var t = currentTime / (totalTime / 2);
+		    if (t < 1) return change / 2 * Math.pow(2, 10 * (t - 1)) + value;
+		    t--;
+		    return change / 2 * (-Math.pow(2, -10 * t) + 2) + value;
+		});
+
+		exports.easeInOutExpo = easeInOutExpo;
+		// circular easing in - accelerating from zero velocity
+		var easeInCirc = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    return -change * (Math.sqrt(1 - Math.pow(progressRatio, 2)) - 1) + value;
+		});
+
+		exports.easeInCirc = easeInCirc;
+		// circular easing out - decelerating to zero velocity
+		var easeOutCirc = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    return change * Math.sqrt(1 - Math.pow(progressRatio - 1, 2)) + value;
+		});
+
+		exports.easeOutCirc = easeOutCirc;
+		// circular easing in/out - acceleration until halfway, then deceleration
+		var easeInOutCirc = ease.bind(null, function (currentTime, totalTime, progressRatio, value, change) {
+		    var t = currentTime / (totalTime / 2);
+		    if (t < 1) return -change / 2 * (Math.sqrt(1 - Math.pow(t, 2)) - 1) + value;
+		    t -= 2;
+		    return change / 2 * (Math.sqrt(1 - Math.pow(t, 2)) + 1) + value;
+		});
+		//END Robert Penner's easing formulas
+		exports.easeInOutCirc = easeInOutCirc;
+
+	/***/ },
+	/* 2 */
+	/***/ function(module, exports) {
+
+		'use strict';
+
+		Object.defineProperty(exports, '__esModule', {
+		    value: true
+		});
+		var NUMBER_REGEXP = /[-]?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]+)?/g;
+		var sanitizeProperties = function sanitizeProperties(property) {
+		    return property.replace('3d', 'THREE_D');
+		};
+		exports.sanitizeProperties = sanitizeProperties;
+		var unsanitizeProperties = function unsanitizeProperties(property) {
+		    return property.replace('THREE_D', '3d');
+		};
+		exports.unsanitizeProperties = unsanitizeProperties;
+		var placeholdNumbers = function placeholdNumbers(string) {
+		    return sanitizeProperties(string).replace(NUMBER_REGEXP, '$');
+		};
+		exports.placeholdNumbers = placeholdNumbers;
+		var extractNumbers = function extractNumbers(string) {
+		    return string.match(NUMBER_REGEXP).map(parseFloat);
+		};
+		exports.extractNumbers = extractNumbers;
+		var interpolateNumbers = function interpolateNumbers(string, numbers) {
+		    return unsanitizeProperties(numbers.reduce(function (string, number) {
+		        return string.replace('$', number);
+		    }, string));
+		};
+		exports.interpolateNumbers = interpolateNumbers;
+
+	/***/ },
+	/* 3 */
+	/***/ function(module, exports) {
+
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+		    value: true
+		});
+		exports["default"] = merge;
+
+		function merge() {
+		    var res = {};
+		    for (var index in arguments) {
+		        var obj = arguments[index];
+		        for (var key in obj) {
+		            res[key] = obj[key];
+		        }
+		    }
+		    return res;
+		}
+
+		module.exports = exports["default"];
+
+	/***/ }
+	/******/ ]);
 
 /***/ },
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var _toolsMerge = __webpack_require__(5);
-
-	var _toolsMerge2 = _interopRequireDefault(_toolsMerge);
-
-	var _default = (function () {
-	    var _class = function _default() {
-	        _classCallCheck(this, _class);
-
-	        this.frames = 60;
-	        this.actors = [];
-	        this.addActor = this.actors.push.bind(this.actors);
-	    };
-
-	    _createClass(_class, [{
-	        key: "getDuration",
-	        value: function getDuration() {
-	            return Math.max.apply(Math, _toConsumableArray(this.actors.map(function (actor) {
-	                return actor.getDuration();
-	            })));
-	        }
-	    }, {
-	        key: "getState",
-	        value: function getState(t) {
-	            return _toolsMerge2["default"].apply(undefined, _toConsumableArray(this.actors.map(function (actor) {
-	                return actor.getState(t);
-	            })));
-	        }
-	    }, {
-	        key: "play",
-	        value: function play(cb) {
-	            var _this = this;
-
-	            var startedAt = new Date();
-	            var duration = this.getDuration();
-	            var interval = setInterval(function () {
-	                requestAnimationFrame(function () {
-	                    var now = new Date();
-	                    var diff = now - startedAt;
-	                    cb(_this.getState(diff <= duration ? diff : duration));
-	                    if (diff >= duration) {
-	                        clearInterval(interval);
-	                    }
-	                });
-	            }, 1000 / this.frames);
-	        }
-	    }]);
-
-	    return _class;
-	})();
-
-	exports["default"] = _default;
-	module.exports = exports["default"];
-
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports["default"] = merge;
-
-	function merge() {
-	    var res = {};
-	    for (var index in arguments) {
-	        var obj = arguments[index];
-	        for (var key in obj) {
-	            res[key] = obj[key];
-	        }
-	    }
-	    return res;
-	}
-
-	module.exports = exports["default"];
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _index = __webpack_require__(7);
-
-	var _index2 = _interopRequireDefault(_index);
-
-	var _default = (function (_Actor) {
-	    var _class = function _default(from, to, duration, easing) {
-	        _classCallCheck(this, _class);
-
-	        _get(Object.getPrototypeOf(_class.prototype), "constructor", this).call(this);
-	        this.addKeyframe(0, {
-	            opacity: from
-	        });
-	        this.addKeyframe(duration, {
-	            opacity: to
-	        }, easing);
-	    };
-
-	    _inherits(_class, _Actor);
-
-	    return _class;
-	})(_index2["default"]);
-
-	exports["default"] = _default;
-	module.exports = exports["default"];
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var _easings = __webpack_require__(8);
-
-	var _default = (function () {
-	    var _class = function _default() {
-	        _classCallCheck(this, _class);
-
-	        this.keyframes = [];
-	    };
-
-	    _createClass(_class, [{
-	        key: "addKeyframe",
-	        value: function addKeyframe(time, state, easing) {
-	            this.keyframes.push({
-	                time: time,
-	                state: state,
-	                easing: easing || _easings.linear
-	            });
-	        }
-	    }, {
-	        key: "getDuration",
-	        value: function getDuration() {
-	            return Math.max.apply(Math, _toConsumableArray(this.keyframes.map(function (keyframe) {
-	                return keyframe.time;
-	            })));
-	        }
-	    }, {
-	        key: "getState",
-	        value: function getState(t) {
-	            //find all the keyframes whose time is before t,
-	            var prevKeyframe = this.keyframes.filter(function (keyframe) {
-	                return keyframe.time <= t;
-	            })
-	            //then find the one with the greater time of all, thus finding the immediate predecessor frame of t
-	            .reduce(function (prev, next) {
-	                return prev && prev.time > next.time ? prev : next;
-	            });
-
-	            var prevState = prevKeyframe.state;
-
-	            //find all the keyframes whose time is after t,
-	            var nextKeyframe = this.keyframes.filter(function (keyframe) {
-	                return keyframe.time >= t;
-	            })
-	            // then find the one with the smaller time of all, thus finding the immediate successor frame of t
-	            .reduce(function (prev, next) {
-	                return prev && prev.time < next.time ? prev : next;
-	            });
-
-	            var nextState = nextKeyframe.state;
-
-	            var state = {};
-	            var duration = this.getDuration();
-	            Object.keys(prevState).forEach(function (key) {
-	                state[key] = nextKeyframe.easing.ease(t, duration, t / duration, prevState[key], nextState[key] - prevState[key]);
-	            });
-	            return state;
-	        }
-	    }]);
-
-	    return _class;
-	})();
-
-	exports["default"] = _default;
-	module.exports = exports["default"];
-
-/***/ },
-/* 8 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	var Easing = function Easing(func, cssName) {
-	    _classCallCheck(this, Easing);
-
-	    this.ease = func;
-	    this.cssName = cssName;
-	};
-
-	exports.Easing = Easing;
-
-	//BEGIN Robert Penner's easing formulas, stolen from: http://gizma.com/easing/
-	//CSS cubic bezier easings stolen from http://easings.net/
-
-	// simple linear tweening - no easing, no acceleration
-	var linear = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    return change * progressRatio + value;
-	}, 'linear');
-
-	exports.linear = linear;
-	// quadratic easing in - accelerating from zero velocity
-	var easeInQuad = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    return change * Math.pow(progressRatio, 2) + value;
-	}, 'cubic-bezier(0.55, 0.085, 0.68, 0.53)');
-
-	exports.easeInQuad = easeInQuad;
-	// quadratic easing out - decelerating to zero velocity
-	var easeOutQuad = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    return -change * progressRatio * (progressRatio - 2) + value;
-	}, 'cubic-bezier(0.25, 0.46, 0.45, 0.94)');
-
-	exports.easeOutQuad = easeOutQuad;
-	// quadratic easing in/out - acceleration until halfway, then deceleration
-	var easeInOutQuad = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    var t = currentTime / (totalTime / 2);
-	    if (t < 1) return change / 2 * t * t + value;
-	    t--;
-	    return -change / 2 * (t * (t - 2) - 1) + value;
-	}, 'cubic-bezier(0.455, 0.03, 0.515, 0.955)');
-
-	exports.easeInOutQuad = easeInOutQuad;
-	// cubic easing in - accelerating from zero velocity
-	var easeInCubic = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    return change * Math.pow(progressRatio, 3) + value;
-	}, 'cubic-bezier(0.55, 0.055, 0.675, 0.19)');
-
-	exports.easeInCubic = easeInCubic;
-	// cubic easing out - decelerating to zero velocity
-	var easeOutCubic = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    return change * (Math.pow(progressRatio - 1, 3) + 1) + value;
-	}, 'cubic-bezier(0.215, 0.61, 0.355, 1)');
-
-	exports.easeOutCubic = easeOutCubic;
-	// cubic easing in/out - acceleration until halfway, then deceleration
-	var easeInOutCubic = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    var t = currentTime / (totalTime / 2);
-	    if (t < 1) return change / 2 * Math.pow(t, 3) + value;
-	    t -= 2;
-	    return change / 2 * (Math.pow(t, 3) + 2) + value;
-	}, 'cubic-bezier(0.645, 0.045, 0.355, 1)');
-
-	exports.easeInOutCubic = easeInOutCubic;
-	// quartic easing in - accelerating from zero velocity
-	var easeInQuart = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    return change * Math.pow(progressRatio, 4) + value;
-	}, 'cubic-bezier(0.895, 0.03, 0.685, 0.22)');
-
-	exports.easeInQuart = easeInQuart;
-	// quartic easing out - decelerating to zero velocity
-	var easeOutQuart = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    return -change * (Math.pow(progressRatio - 1, 4) - 1) + value;
-	}, 'cubic-bezier(0.165, 0.84, 0.44, 1)');
-
-	exports.easeOutQuart = easeOutQuart;
-	// quartic easing in/out - acceleration until halfway, then deceleration
-	var easeInOutQuart = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    var t = currentTime / (totalTime / 2);
-	    if (t < 1) return change / 2 * Math.pow(t, 4) + value;
-	    t -= 2;
-	    return -change / 2 * (Math.pow(t, 4) - 2) + value;
-	}, 'cubic-bezier(0.77, 0, 0.175, 1)');
-
-	exports.easeInOutQuart = easeInOutQuart;
-	// quintic easing in - accelerating from zero velocity
-	var easeInQuint = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    return change * Math.pow(progressRatio, 5) + value;
-	}, 'cubic-bezier(0.755, 0.05, 0.855, 0.06)');
-
-	exports.easeInQuint = easeInQuint;
-	// quintic easing out - decelerating to zero velocity
-	var easeOutQuint = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    return change * (Math.pow(progressRatio - 1, 5) + 1) + value;
-	}, 'cubic-bezier(0.23, 1, 0.32, 1)');
-
-	exports.easeOutQuint = easeOutQuint;
-	// quintic easing in/out - acceleration until halfway, then deceleration
-	var easeInOutQuint = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    var t = currentTime / (totalTime / 2);
-	    if (t < 1) return change / 2 * Math.pow(t, 5) + value;
-	    t -= 2;
-	    return change / 2 * (Math.pow(t, 5) + 2) + value;
-	}, 'cubic-bezier(0.86, 0, 0.07, 1)');
-
-	exports.easeInOutQuint = easeInOutQuint;
-	// sinusoidal easing in - accelerating from zero velocity
-	var easeInSine = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    return -change * Math.cos(progressRatio * (Math.PI / 2)) + change + value;
-	}, 'cubic-bezier(0.47, 0, 0.745, 0.715)');
-
-	exports.easeInSine = easeInSine;
-	// sinusoidal easing out - decelerating to zero velocity
-	var easeOutSine = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    return change * Math.sin(progressRatio * (Math.PI / 2)) + value;
-	}, 'cubic-bezier(0.39, 0.575, 0.565, 1)');
-
-	exports.easeOutSine = easeOutSine;
-	// sinusoidal easing in/out - accelerating until halfway, then decelerating
-	var easeInOutSine = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    return -change / 2 * (Math.cos(Math.PI * progressRatio) - 1) + value;
-	}, 'cubic-bezier(0.445, 0.05, 0.55, 0.95)');
-
-	exports.easeInOutSine = easeInOutSine;
-	// exponential easing in - accelerating from zero velocity
-	var easeInExpo = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    return change * Math.pow(2, 10 * (progressRatio - 1)) + value;
-	}, 'cubic-bezier(0.95, 0.05, 0.795, 0.035)');
-
-	exports.easeInExpo = easeInExpo;
-	// exponential easing out - decelerating to zero velocity
-	var easeOutExpo = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    return change * (-Math.pow(2, -10 * progressRatio) + 1) + value;
-	}, 'cubic-bezier(0.19, 1, 0.22, 1)');
-
-	exports.easeOutExpo = easeOutExpo;
-	// exponential easing in/out - accelerating until halfway, then decelerating
-	var easeInOutExpo = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    var t = currentTime / (totalTime / 2);
-	    if (t < 1) return change / 2 * Math.pow(2, 10 * (t - 1)) + value;
-	    t--;
-	    return change / 2 * (-Math.pow(2, -10 * t) + 2) + value;
-	}, 'cubic-bezier(1, 0, 0, 1)');
-
-	exports.easeInOutExpo = easeInOutExpo;
-	// circular easing in - accelerating from zero velocity
-	var easeInCirc = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    return -change * (Math.sqrt(1 - Math.pow(progressRatio, 2)) - 1) + value;
-	}, 'cubic-bezier(0.6, 0.04, 0.98, 0.335)');
-
-	exports.easeInCirc = easeInCirc;
-	// circular easing out - decelerating to zero velocity
-	var easeOutCirc = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    return change * Math.sqrt(1 - Math.pow(progressRatio - 1, 2)) + value;
-	}, 'cubic-bezier(0.075, 0.82, 0.165, 1)');
-
-	exports.easeOutCirc = easeOutCirc;
-	// circular easing in/out - acceleration until halfway, then deceleration
-	var easeInOutCirc = new Easing(function (currentTime, totalTime, progressRatio, value, change) {
-	    var t = currentTime / (totalTime / 2);
-	    if (t < 1) return -change / 2 * (Math.sqrt(1 - Math.pow(t, 2)) - 1) + value;
-	    t -= 2;
-	    return change / 2 * (Math.sqrt(1 - Math.pow(t, 2)) + 1) + value;
-	}, 'cubic-bezier(0.785, 0.135, 0.15, 0.86)');
-	//END Robert Penner's easing formulas
-	exports.easeInOutCirc = easeInOutCirc;
-
-/***/ },
-/* 9 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _index = __webpack_require__(4);
-
-	var _index2 = _interopRequireDefault(_index);
-
-	var _actorScale = __webpack_require__(10);
-
-	var _actorScale2 = _interopRequireDefault(_actorScale);
-
-	var _default = (function (_Animation) {
-	    var _class = function _default(from, to, duration, easing) {
-	        _classCallCheck(this, _class);
-
-	        _get(Object.getPrototypeOf(_class.prototype), "constructor", this).call(this);
-	        this.addActor(new _actorScale2["default"](from, to, duration, easing));
-	    };
-
-	    _inherits(_class, _Animation);
-
-	    return _class;
-	})(_index2["default"]);
-
-	exports["default"] = _default;
-	module.exports = exports["default"];
-
-/***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var _index = __webpack_require__(7);
-
-	var _index2 = _interopRequireDefault(_index);
-
-	var _default = (function (_Actor) {
-	    var _class = function _default(from, to, duration, easing) {
-	        _classCallCheck(this, _class);
-
-	        _get(Object.getPrototypeOf(_class.prototype), "constructor", this).call(this);
-	        this.addKeyframe(0, {
-	            transform: "scale(" + from + ")"
-	        });
-	        this.addKeyframe(duration, {
-	            transform: "scale(" + to + ")"
-	        }, easing);
-	    };
-
-	    _inherits(_class, _Actor);
-
-	    return _class;
-	})(_index2["default"]);
-
-	exports["default"] = _default;
-	module.exports = exports["default"];
-
-/***/ },
-/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -709,9 +698,9 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-	var _immutable = __webpack_require__(12);
+	var _immutable = __webpack_require__(5);
 
-	var _protoStoreEs6 = __webpack_require__(13);
+	var _protoStoreEs6 = __webpack_require__(6);
 
 	var _protoStoreEs62 = _interopRequireDefault(_protoStoreEs6);
 
@@ -763,7 +752,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 12 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -5695,7 +5684,7 @@
 	}));
 
 /***/ },
-/* 13 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5708,7 +5697,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var _require = __webpack_require__(12);
+	var _require = __webpack_require__(5);
 
 	var List = _require.List;
 	var Map = _require.Map;
