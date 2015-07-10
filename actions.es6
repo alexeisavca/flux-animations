@@ -29,7 +29,8 @@ export default class Actions {
 
     resize({target, from, to, duration, mode, easing}){
         var _mode = mode || 'css';
+        var _ease = easing || K.easings.linear;
         var cb = ('js' == _mode ? this.animateWithJs : this.animateWithCss).bind(this);
-        //cb(target, new ScaleAnimation(from, to, duration, easing));
+        cb(target, duration, K.prerender(duration, _ease(K.transition('transform', `scale(${from})`, `scale(${to})`))));
     }
 };
