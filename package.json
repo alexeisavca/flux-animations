@@ -25,7 +25,7 @@
     "babel-loader": "^5.3.1"
   },
   "dependencies": {
-    "keyframes.js": "0.0.1",
+    "keyframes.js": "0.0.2",
     "immutable": "^3.7.4"
   }
 }
